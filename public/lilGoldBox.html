@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ICT 飲料外食訂購單</title>
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/8.2.8/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/8.2.8/firebase-auth.js"></script>
+    <script defer src="/__/firebase/8.2.8/firebase-database.js"></script>
+    <script defer src="/__/firebase/8.2.8/firebase-firestore.js"></script>
+    <script defer src="/__/firebase/8.2.8/firebase-functions.js"></script>
+    <script defer src="/__/firebase/8.2.8/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/8.2.8/firebase-storage.js"></script>
+    <script defer src="/__/firebase/8.2.8/firebase-analytics.js"></script>
+    <script defer src="/__/firebase/8.2.8/firebase-remote-config.js"></script>
+    <script defer src="/__/firebase/8.2.8/firebase-performance.js"></script>
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        //var ref_gold = firebase.database().ref('ictdrink_money');
+        function onConfirm(){
+            var money_input = document.getElementById("input_money").value;
+            console.log(money_input)
+            var int_money_input = parseInt(money_input, 10);
+            console.log(int_money_input)
+            //if(money != null){
+                firebase.database().ref("ictdrink_money").update({money:int_money_input});
+            //}
+        }
+    </script>
+    </head>
+    <body>
+        <script>
+    
+    
+    
+    
+    
+    document.addEventListener('DOMContentLoaded', function() {
+    const loadEl = document.querySelector('#load');
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.firestore().doc('/foo/bar').get().then(() => { });
+        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        // firebase.analytics(); // call to activate
+        // firebase.analytics().logEvent('tutorial_completed');
+        // firebase.performance(); // call to activate
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        
+        /*key=firebase.database().ref('magtonic').push({
+        employee:{
+            name: '施建興',
+            empID: '0133',
+            item : 'black tea',
+            money : '60'
+        }
+        }).key;
+        console.log(key);
+        */
+        
+        var ref_gold = firebase.database().ref('ictdrink_money');
+        var moneyValue = "0";
+        var body = document.getElementsByTagName('body')[0];
+        ref_gold.on("value", function(snapshot) {
+            var div = document.createElement('div');
+            div.innerHTML = "<b><input type=\"text\" id=\"input_money\" value=\""+moneyValue+"\"></b><button id=\"button_money\" onClick=\"onConfirm()\">確認</button>";
+            body.appendChild(div);
+            
+            
+            
+            
+        });
+        
+        
+        
+        
+    });
+      
+      
+    </script>
+    </body>
+</html>
