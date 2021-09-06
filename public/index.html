@@ -210,6 +210,27 @@
     	function addEmployee() {
     		window.location = 'add_employee.html';
     	}
+
+        function updateGold(){
+            var email = prompt('email');
+            var password = "";
+            if(email != ""){
+                password = prompt('password');
+            }
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
+                var user = userCredential.user;
+                window.location = 'lilGoldBox.html';
+            })
+            .catch((error)=>{
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert('你木有權限~bye bye~')
+                console.log(errorCode)
+                console.log(errorMessage)
+            })
+            
+        }
     	
     	function onDeleteEmployee(idx) {
     		
@@ -576,7 +597,7 @@
   </head>
   <body>
   
-  	<div align="center"><input type="button" value="選擇菜單" onclick="selectStore()" /><input type="button" value="新增人員" onclick="addEmployee()" /></div>
+  	<div align="center"><input type="button" value="選擇菜單" onclick="selectStore()" /><input type="button" value="新增人員" onclick="addEmployee()" /><input type="button" value="小金庫" onclick="updateGold()" /></div>
     <!-- div id="img-area"></div-->
   	<hr>
   	<div align="center" id="no_image_show" style="display:none">目前沒有菜單，請按"選擇菜單" => "上傳菜單圖片"</div>
@@ -589,6 +610,7 @@
   	<hr>
   	<div align="center" id="total_show"><b><h1>目前總數 : <span id="current_total"></span></h1></b></div>
   	<div align="center" id="total_show"><b><h1>目前總價 : <span id="current_price"></span></h1></b></div>
+    <div align="center" id="total_show"><b><h1>小金庫餘額 : <span id="current_gold"></span></h1></b></div>
     <script>
     
     
@@ -627,14 +649,20 @@
 		
 		var ref = firebase.database().ref('ictdrink');
 		var ref_img = firebase.database().ref("ictdrink_select/url");
-		
+		var ref_gold = firebase.database().ref('ictdrink_money/money');
 		var no_image_show = document.getElementById("no_image_show");
 		var total_show = document.getElementById("total_show");
 		var current_total = document.getElementById("current_total");
 		var current_price = document.getElementById("current_price");
 		
+        var total_gold=0;
 		var img_area = document.getElementById("img-area");
-		
+
+        ref_gold.on("value", function(snapshot) {
+                const data = snapshot.val();
+                total_gold = data;
+                console.log("========>" + data)
+        });
 		ref_img.on('value', (snapshot) => {
 			const data = snapshot.val();
 			if (data == null) {
@@ -742,6 +770,7 @@
 	    	var total_count=0;
 	    	var total_price=0;
 	    	
+            
  			snapshot.forEach(function(childSnapshot) {
  				var k = childSnapshot.key;
   				var childData = childSnapshot.val();
@@ -867,6 +896,7 @@
 	    	
  			current_total.innerHTML = total_count;
  			current_price.innerHTML = total_price;
+            current_gold.innerHTML = total_gold;
  			
  			
  			
@@ -891,7 +921,7 @@
     
     
     
-     
+    
     
     
   </body>

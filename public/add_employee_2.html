@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<title>ICT 飲料外食訂購單</title>
+
+<style>
+	
+      
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.button {
+  background-color: #008CBA; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.button_red {
+  background-color: #f44336; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 10px;
+}
+      
+</style>
+
+<script defer src="/__/firebase/8.0.2/firebase-app.js"></script>
+<!-- include only the Firebase features as you need -->
+<!--script defer src="/__/firebase/8.0.2/firebase-auth.js"></script-->
+<script defer src="/__/firebase/8.0.2/firebase-database.js"></script>
+<!--script defer src="/__/firebase/8.0.2/firebase-firestore.js"></script-->
+<!--script defer src="/__/firebase/8.0.2/firebase-functions.js"></script-->
+<!--script defer src="/__/firebase/8.0.2/firebase-messaging.js"></script-->
+<!--script defer src="/__/firebase/8.0.2/firebase-storage.js"></script-->
+<!--script defer src="/__/firebase/8.0.2/firebase-analytics.js"></script-->
+<!--script defer src="/__/firebase/8.0.2/firebase-remote-config.js"></script-->
+<!--script defer src="/__/firebase/8.0.2/firebase-performance.js"></script-->
+<!-- 
+	initialize the SDK after all desired features are loaded, set useEmulator to false
+    to avoid connecting the SDK to running emulators.
+-->
+<script defer src="/__/firebase/init.js?useEmulator=true"></script>
+   
+<script type='text/javascript'>
+var nameArray=[];
+var workNoArray=[];
+function load() {
+	
+	
+	document.addEventListener('DOMContentLoaded', function() {
+		const loadEl = document.querySelector('#load');
+        
+		var ref = firebase.database().ref('ictdrink_test')
+		
+		ref.on("value", function(snapshot) {
+			
+			snapshot.forEach(function(childSnapshot) {
+  				var childData = childSnapshot.val();
+  				var id=childData.id;
+  				console.log(childData.employee);
+  			    var employee = childData.employee;
+  			  	nameArray.push(employee.name);
+  			    workNoArray.push(employee.empID);
+  			    alert(childData.employee);
+			});
+		});
+	 });
+}
+
+function onCancell() {
+	window.location = 'index.html';
+}
+
+function onConfirm() {
+	//plantSelect = document.getElementById("plantSelect");
+	employeeName = document.getElementById("employeeName");
+	employeeNo = document.getElementById("employeeNo");
+	
+	//alert("select value = "+plantSelect.value);
+	
+	if (employeeName.value == "") {
+		alert("姓名不能為空!");
+		return false;
+	}
+	
+	if (employeeNo.value == "") {
+		alert("工號不能為空!");
+		return false;
+	}
+	
+	loading = document.getElementById("loading");
+	loading.display = "block";
+	
+	
+	//alert("新吉廠");
+	key=firebase.database().ref('ictdrink_test').push({
+        employee:{
+        	name: employeeName.value,
+ 			empID: employeeNo.value,
+ 			itemName : "",
+ 			pay: "0",
+ 			quantity: "0",
+ 			price: "0",
+ 			balance: "0"
+ 		}
+ 	}).key;
+	console.log(key);
+	
+	/*if (plantSelect.value == 1) {
+		//alert("安新廠");
+		key=firebase.database().ref('magtonic_an_sin').push({
+	        employee:{
+	        	name: employeeName.value,
+	 			empID: employeeNo.value,
+	 			visitDate : ""
+	 		}
+	 	}).key;
+		console.log(key);
+	} else if (plantSelect.value == 2) {
+		//alert("西港廠");
+		key=firebase.database().ref('magtonic_si_gang').push({
+	        employee:{
+	        	name: employeeName.value,
+	 			empID: employeeNo.value,
+	 			visitDate : ""
+	 		}
+	 	}).key;
+		console.log(key);
+	} else {
+		//alert("新吉廠");
+		key=firebase.database().ref('magtonic').push({
+	        employee:{
+	        	name: employeeName.value,
+	 			empID: employeeNo.value,
+	 			visitDate : ""
+	 		}
+	 	}).key;
+		console.log(key);
+	}*/
+	
+	
+		
+	//setTimeout('reloadIndex()', 3000);
+	
+	
+}
+
+function reloadIndex() {
+	window.location = 'index.html';
+}
+
+</script>
+</head>
+<body onload="load()">
+<h1 align="center">新增人員</h1>
+<table class="center" border='1'>
+
+	<!-- tr>
+		<td>廠區</td>
+		<td>
+			<select id="plantSelect" style="width:100%;">
+				<option value=0>新吉</option>
+				<option value=1>安新</option>
+				<option value=2>西港</option>
+			</select>
+		</td>
+	</tr-->
+	<tr><td>工號</td><td align="center"><input  name="employeeNo" id="employeeNo" type="text" value=""></td></tr>
+	<tr><td>姓名</td><td align="center"><input  name="employeeName" id="employeeName" type="text" value=""></td></tr>
+	
+	
+</table>
+<br>
+
+	
+	<div align="center"><input type="button" class="button" value="確定" onClick="onConfirm()">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="button_red" value="取消" onClick="onCancell()"></div>
+
+
+
+<div align="center" id="loading" style="display:none">
+	<img src='Loading_icon.gif' class="img">
+</div>
+</body>
+</html>
