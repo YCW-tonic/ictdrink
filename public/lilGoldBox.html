@@ -32,15 +32,15 @@
             //if(money != null){
                 firebase.database().ref("ictdrink_money").update({money:int_money_input});
             //}
+            $("#input_money").css("background-color:red")
         }
     </script>
     </head>
     <body>
         <script>
     
-    
-    
-    
+      
+
     
     document.addEventListener('DOMContentLoaded', function() {
     const loadEl = document.querySelector('#load');
@@ -70,10 +70,12 @@
         console.log(key);
         */
         
-        var ref_gold = firebase.database().ref('ictdrink_money');
-        var moneyValue = "0";
+        var ref_gold = firebase.database().ref('ictdrink_money/money');
+        //var moneyValue = "0";
         var body = document.getElementsByTagName('body')[0];
         ref_gold.on("value", function(snapshot) {
+            $("div").remove(); 
+            var moneyValue = snapshot.val();
             var div = document.createElement('div');
             div.innerHTML = "<b><input type=\"text\" id=\"input_money\" value=\""+moneyValue+"\"></b><button id=\"button_money\" onClick=\"onConfirm()\">確認</button>";
             body.appendChild(div);

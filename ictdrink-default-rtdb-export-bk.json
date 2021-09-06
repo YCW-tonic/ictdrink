@@ -1,0 +1,240 @@
+{
+  "ictdrink" : {
+    "-MUSJ0eK01yqQ85NLN-n" : {
+      "employee" : {
+        "empID" : "0146",
+        "itemName" : "冰淇淋醇紅 無糖微冰 ",
+        "name" : "徐于晴",
+        "pay" : "1",
+        "price" : "45",
+        "quantity" : "1"
+      }
+    },
+    "-MUSKpVmzQu3Sy1zzIO8" : {
+      "employee" : {
+        "empID" : "0031",
+        "itemName" : "",
+        "name" : "施勝中",
+        "pay" : "0",
+        "price" : "0",
+        "quantity" : "0"
+      }
+    },
+    "-MUSKt7SiBNQ223PbAKG" : {
+      "employee" : {
+        "empID" : "0099",
+        "itemName" : "",
+        "name" : "王朝章",
+        "pay" : "0",
+        "price" : "0",
+        "quantity" : "0"
+      }
+    },
+    "-MUSKwPnxme6ixGDtkjh" : {
+      "employee" : {
+        "empID" : "0100",
+        "itemName" : "綠豆沙牛奶",
+        "name" : "金純瑩",
+        "pay" : "0",
+        "price" : "50",
+        "quantity" : "3"
+      }
+    },
+    "-MUSKzR8hSPj1fVsHsJB" : {
+      "employee" : {
+        "empID" : "0123",
+        "itemName" : "四季青  微微",
+        "name" : "葉森嘉",
+        "pay" : "1",
+        "price" : "25",
+        "quantity" : "1"
+      }
+    },
+    "-MUSL1LqOIC0sgJLQa8q" : {
+      "employee" : {
+        "empID" : "0133",
+        "itemName" : "紅梅洛神 微糖去冰L 找20",
+        "name" : "施建興",
+        "pay" : "1",
+        "price" : "30",
+        "quantity" : "1"
+      }
+    },
+    "-MUSL4c0uejCc9LOpE74" : {
+      "employee" : {
+        "empID" : "0134",
+        "itemName" : "老兵紅茶 一分糖 去冰",
+        "name" : "黃俊誠",
+        "pay" : "0",
+        "price" : "25",
+        "quantity" : "1"
+      }
+    },
+    "-MUSL7gRp7yO1skHlDGo" : {
+      "employee" : {
+        "empID" : "0136",
+        "itemName" : "冬露青茶 無糖 去冰 ",
+        "name" : "潘建華",
+        "pay" : "1",
+        "price" : "30",
+        "quantity" : "1"
+      }
+    },
+    "-MUSLAYIo9kEnH_V4ogM" : {
+      "employee" : {
+        "empID" : "0138",
+        "itemName" : "日光金萱 1分糖 去冰",
+        "name" : "吳禹潔",
+        "pay" : "1",
+        "price" : "30",
+        "quantity" : "1"
+      }
+    },
+    "-MUSLFJk8KIdXNCStj2p" : {
+      "employee" : {
+        "empID" : "0144",
+        "itemName" : "日光金萱 無糖 少冰 ",
+        "name" : "陳柏含",
+        "pay" : "1",
+        "price" : "30",
+        "quantity" : "1"
+      }
+    },
+    "-MUSLHbnOtCsGcd2Yp87" : {
+      "employee" : {
+        "empID" : "0145",
+        "itemName" : "",
+        "name" : "胡皓智",
+        "pay" : "0",
+        "price" : "0",
+        "quantity" : "0"
+      }
+    },
+    "-MUSLLoMwRX6Iu6OCxn2" : {
+      "employee" : {
+        "empID" : "0151",
+        "itemName" : "金牌紅茶 無糖去冰",
+        "name" : "邱苑菁",
+        "pay" : "1",
+        "price" : "25",
+        "quantity" : "1"
+      }
+    },
+    "-MUSLO136tHFaelHZRE7" : {
+      "employee" : {
+        "empID" : "0152",
+        "itemName" : "金牌青茶 無糖 微冰",
+        "name" : "廖俊凱",
+        "pay" : "0",
+        "price" : "30",
+        "quantity" : "1"
+      }
+    },
+    "-MUSLQtTlUDleYo7MUmr" : {
+      "employee" : {
+        "empID" : "0153",
+        "itemName" : "金牌青茶 無糖 微冰",
+        "name" : "鄭惠玲",
+        "pay" : "1",
+        "price" : "30",
+        "quantity" : "1"
+      }
+    },
+    "-MUSLT2ojJ0_iODnWNKQ" : {
+      "employee" : {
+        "empID" : "0154",
+        "itemName" : "冰淇淋醇紅 無糖微冰",
+        "name" : "蘇國碩",
+        "pay" : "1",
+        "price" : "45",
+        "quantity" : "1"
+      }
+    },
+    "-MUSLXXLnFcPItGzYZy-" : {
+      "employee" : {
+        "empID" : "0156",
+        "itemName" : "",
+        "name" : "洪家霖",
+        "pay" : "0",
+        "price" : "0",
+        "quantity" : "0"
+      }
+    },
+    "-MUSL_6vaRAb9IQ1Rdsi" : {
+      "employee" : {
+        "empID" : "0158",
+        "itemName" : "紅蔗青茶 微糖少冰",
+        "name" : "吳政緯",
+        "pay" : "1",
+        "price" : "50",
+        "quantity" : "1"
+      }
+    },
+    "-MV_-hTnC-a-He4c_n7b" : {
+      "employee" : {
+        "empID" : "0000",
+        "itemName" : "",
+        "name" : "吱吱(廖俊凱2)",
+        "pay" : "0",
+        "price" : "0",
+        "quantity" : "0"
+      }
+    },
+    "-MW7MP9NYpfjf6M_ZEQG" : {
+      "employee" : {
+        "empID" : "0157",
+        "itemName" : "",
+        "name" : "蔡松霖",
+        "pay" : "0",
+        "price" : "0",
+        "quantity" : "0"
+      }
+    },
+    "-MXoOWroH_qkvsBWh6F6" : {
+      "employee" : {
+        "empID" : "123",
+        "itemName" : "金牌青茶 無糖 微冰  ",
+        "name" : "黃乙森",
+        "pay" : "1",
+        "price" : "30",
+        "quantity" : "1"
+      }
+    },
+    "-MXoO_tQh3kf6v-TSCQ7" : {
+      "employee" : {
+        "empID" : "123",
+        "itemName" : " 金牌青茶 無糖 微冰 ",
+        "name" : "吳秉翰",
+        "pay" : "1",
+        "price" : "30",
+        "quantity" : "1"
+      }
+    },
+    "-M_OSH-JykXOFmhmHBBn" : {
+      "employee" : {
+        "empID" : "0166",
+        "itemName" : "",
+        "name" : "林煒恩",
+        "pay" : "0",
+        "price" : "0",
+        "quantity" : "0"
+      }
+    },
+    "-McSJP3nJzVCERxr_tRa" : {
+      "employee" : {
+        "empID" : "0169",
+        "itemName" : "露摘綠茶無糖去冰",
+        "name" : "李欣哲",
+        "pay" : "0",
+        "price" : "25",
+        "quantity" : "1"
+      }
+    }
+  },
+  "ictdrink_money" : {
+    "money" : 500
+  },
+  "ictdrink_select" : {
+    "url" : "https://firebasestorage.googleapis.com/v0/b/ictdrink.appspot.com/o/%E3%80%90%E8%BF%B7%E5%AE%A2%E5%A4%8F%E3%80%912021%E8%8F%9C%E5%96%AE%E5%83%B9%E7%9B%AE%E8%A1%A8.jpg?alt=media&token=cc338905-a032-453f-8af8-cabeed5329d2"
+  }
+}
