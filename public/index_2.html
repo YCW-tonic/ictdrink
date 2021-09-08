@@ -252,6 +252,26 @@
             })
             
         }
+        function pay(){
+            var email = prompt('email');
+            var password = "";
+            if(email != ""){
+                password = prompt('password');
+            }
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
+                var user = userCredential.user;
+                window.location = 'pay.html';
+            })
+            .catch((error)=>{
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert('你木有權限~bye bye~')
+                console.log(errorCode)
+                console.log(errorMessage)
+            })
+            
+        }
     	
     	function onDeleteEmployee(idx) {
     		
@@ -625,7 +645,7 @@
   	<div id="img-area" style="width:100%"></div>
   	
   	<hr>
-  	<div align="center"><input type="button" value="清除全部訂購資料" onclick="clearAll()" /></div>
+  	<div align="center"><input type="button" value="清除全部訂購資料" onclick="clearAll()" /><input type="button" value="結單" onclick="pay()" /></div>
   	<br>
   	<div align="center"><b>請直接按"修改"來新增或修改資料。"刪除"為刪除人員，請注意。若誤刪，請從新增人員新增。 若購買超過1杯，請自行填入總數。</b></div>
   	<hr>
