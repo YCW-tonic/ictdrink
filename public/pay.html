@@ -1,38 +1,71 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>結單</title>
     <style type="text/css">
-        .center,.removeIT{
-            margin-left: 20vw;
-        }
-        .div_button{
-            margin-top:5vh;
-            margin-left: 21vw;
-            margin-bottom: 3vh;
-        }
-        .input_button{
-            font-size: 18px;
-            padding:5px;
-            border-radius: 4px;
-            background-color: transparent;
-            border:2px solid gray;
-        }
-        .input_button:hover{
-            background-color:gray;
-            cursor: pointer;
-        }
-        .div_home{
-            margin-left: 21vw;
-        }
-        .btn_home{
-            font-size: 18px;
-            padding:25px;
-            background-color: transparent;
-            border:1px solid black;
-        }
+    .center,
+    .removeIT {
+        margin-left: 20vw;
+    }
+
+    .div_button {
+        margin-top: 5vh;
+        margin-left: 21vw;
+        margin-bottom: 3vh;
+    }
+
+    .input_button {
+        font-size: 18px;
+        padding: 5px;
+        border-radius: 4px;
+        background-color: transparent;
+        border: 2px solid gray;
+    }
+
+    .input_button:hover {
+        background-color: gray;
+        cursor: pointer;
+    }
+
+    .div_home {
+        margin-left: 21vw;
+    }
+
+    .btn_home {
+        font-size: 18px;
+        padding: 25px;
+        background-color: transparent;
+        border: 1px solid black;
+    }
+
+    .div_select {
+        margin-left: 35vw;
+    }
+
+    .select_all {
+        padding: 3px;
+        border-radius: 3px;
+    }
+    .selectAll{
+        margin-left:10vw;
+        height: 40px; 
+        width: 150px
+        border:3px solid gray;
+    }
+    .div_money{
+        box-shadow: inset 4px 0px 50px 0px #e8e8e8;
+        padding:3px;
+        width:128px;
+        position: absolute;
+        top:24vh;
+        left:0.5vw;
+    }
+    .hide {
+        display: none;
+    }
     </style>
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/8.2.8/firebase-app.js"></script>
@@ -53,291 +86,369 @@
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
-        //var ref_gold = firebase.database().ref('ictdrink_money');
-        function onConfirm(){
-            var money_input = document.getElementById("input_money").value;
-            console.log(money_input)
-            var int_money_input = parseInt(money_input, 10);
-            console.log(int_money_input)
-            //if(money != null){
-                firebase.database().ref("ictdrink_test").update({balance:int_money_input});
-            //}
-        }
+    //var ref_gold = firebase.database().ref('ictdrink_money');
+    function onConfirm() {
+        var money_input = document.getElementById("input_money").value;
+        console.log(money_input)
+        var int_money_input = parseInt(money_input, 10);
+        console.log(int_money_input)
+        //if(money != null){
+        firebase.database().ref("ictdrink_test").update({ balance: int_money_input });
+        //}
+    }
 
-        function btn_home(){
-            window.location = 'index.html';
-        }
+    function btn_home() {
+        window.location = 'index.html';
+    }
 
-        function btn_save () {
-            
-            if (confirm('確認修改所有人的餘額資料?')) {
-                var total = 0
-                var ictdrink_money = 0
-                for (var i=0; i<key_array.length; i++) {
-                    var selectID = "select_" + i;
-                    var paySelect = document.getElementById(selectID);
-                    var value = paySelect.options[paySelect.selectedIndex].value;
-                    if(value == "0"){
-                        var paymentID = "payment_" + i;
-                        var payment = document.getElementById(paymentID).innerHTML;
-                        total += parseInt(payment,10)
-                    }
+    function btn_save() {
+        if (confirm('是否確認結單?')) {
+            for (var i = 0; i < key_array.length; i++) {
+                var balanceID = "balance_" + i;
+                var spanRoll = document.getElementById(balanceID).innerHTML;
+                var intSpanRoll = parseInt(spanRoll, 10);
+                console.log(intSpanRoll)
+                firebase.database().ref("ictdrink_rollback/" + key_array[i] + "/employee").update({ balance: intSpanRoll });
+            }
+            var spanMoneyRoll = document.getElementById("span_money").innerHTML;
+            var intSpanMoneyRoll = parseInt(spanMoneyRoll, 10);
+            firebase.database().ref("ictdrink_rollback").update({ money: intSpanMoneyRoll })
 
-                    var subID = "subtotal_" + i;
-                    var sub = document.getElementById(subID).innerHTML
-                    if(sub > 0){
-                        firebase.database().ref("ictdrink_test/"+key_array[i]+"/employee").update({ balance: sub });
-                    }
-                }
-                firebase.database().ref('ictdrink_money/money').on("value",function(snapshot){
-                    ictdrink_money = snapshot.val();
+            var updateSub = [];
+            var total = 0
+            var ictdrink_money = 0
+            for (var i = 0; i < key_array.length; i++) {
+                var selectID = "select_" + i;
+                var paySelect = document.getElementById(selectID);
+                var value = paySelect.options[paySelect.selectedIndex].value;
+                firebase.database().ref("ictdrink_test/" + key_array[i] + "/employee/balance").on("value", function(snapshot) {
+                    updateSub[i] = snapshot.val();
                 });
-                var minus = parseInt(ictdrink_money,10) - total;
-                firebase.database().ref("ictdrink_money").update({ money: minus });
-            }
-            else {
-                  // Do nothing!
-                console.log('Thing was not saved to the database.');
-            }
-            
-        }
-        function getSelect(idx){
-            var ID = "select_" + idx;
-            var selectID = document.getElementById(ID);
-            var value = selectID.options[selectID.selectedIndex].value;
-            if(value != "0"){
-                var payID = 'payment_' + idx;
-                var pay = document.getElementById(payID).innerHTML;
-                var total = document.getElementById("span_total").innerHTML;
-                document.getElementById("span_total").innerHTML = parseInt(total,10) - parseInt(pay,10);
-
-
-                if(value == "2"){
-                    var balanceID = "balance_" + idx;
-                    var balance = document.getElementById(balanceID).innerHTML;
-                    var paymentID = "payment_" + idx;
+                if (value == "0") {
+                    var paymentID = "payment_" + i;
                     var payment = document.getElementById(paymentID).innerHTML;
-
-                    var minus = parseInt(balance,10) - parseInt(payment,10);
-                    var subID = "subtotal_" + idx;
-                    document.getElementById(subID).innerHTML=minus;
-                }
-                else{
-                    var subID = "subtotal_" + idx;
-                    document.getElementById(subID).innerHTML=0;
+                    total += parseInt(payment, 10)
+                } else if (value == "2") {
+                    var subID = "subtotal_" + i;
+                    var sub = document.getElementById(subID).innerHTML;
+                    var subInt = parseInt(sub, 10);
+                    updateSub[i] = subInt;
+                    //firebase.database().ref("ictdrink_test/"+key_array[i]+"/employee").update({ balance: subInt });
                 }
             }
-            else{
-                var payID = 'payment_' + idx;
-                var pay = document.getElementById(payID).innerHTML;
-                var total = document.getElementById("span_total").innerHTML;
-                document.getElementById("span_total").innerHTML = parseInt(total,10) + parseInt(pay,10);
+            for (var i = 0; i < key_array.length; i++) {
+                firebase.database().ref("ictdrink_test/" + key_array[i] + "/employee").update({ balance: updateSub[i] });
             }
+            firebase.database().ref('ictdrink_money/money').on("value", function(snapshot) {
+                ictdrink_money = snapshot.val();
+            });
+            var minus = parseInt(ictdrink_money, 10) - total;
+            firebase.database().ref("ictdrink_money").update({ money: minus });
+        } else {
+            // Do nothing!
+            console.log('Thing was not saved to the database.');
         }
-    </script>
-    </head>
-    <body>
-        <script>
 
-//-----------------------------------------------------------------------------------------------
-$("tr").remove(); 
+    }
+
+    function getSelect(idx) {
+        var ID = "select_" + idx;
+        var selectID = document.getElementById(ID);
+        var value = selectID.options[selectID.selectedIndex].value;
+        if (value != "0") {
+            var payID = 'payment_' + idx;
+            var pay = document.getElementById(payID).innerHTML;
+            var total = document.getElementById("span_total").innerHTML;
+            document.getElementById("span_total").innerHTML = parseInt(total, 10) - parseInt(pay, 10);
+
+
+            if (value == "2") {
+                var balanceID = "balance_" + idx;
+                var balance = document.getElementById(balanceID).innerHTML;
+                var paymentID = "payment_" + idx;
+                var payment = document.getElementById(paymentID).innerHTML;
+
+                var minus = parseInt(balance, 10) - parseInt(payment, 10);
+                var subID = "subtotal_" + idx;
+                document.getElementById(subID).innerHTML = minus;
+            } else {
+                var subID = "subtotal_" + idx;
+                document.getElementById(subID).innerHTML = 0;
+            }
+        } else {
+            var payID = 'payment_' + idx;
+            var pay = document.getElementById(payID).innerHTML;
+            var total = document.getElementById("span_total").innerHTML;
+            document.getElementById("span_total").innerHTML = parseInt(total, 10) + parseInt(pay, 10);
+        }
+    }
+
+    function selectAll(selectObject) {
+        console.log(selectObject.value)
+        for (var i = 0; i < key_array.length; i++) {
+            if (selectObject.value == "2") {
+                var balanceID = "balance_" + i;
+                var balance = document.getElementById(balanceID).innerHTML;
+                var paymentID = "payment_" + i;
+                var payment = document.getElementById(paymentID).innerHTML;
+
+                var minus = parseInt(balance, 10) - parseInt(payment, 10);
+                var subID = "subtotal_" + i;
+                document.getElementById(subID).innerHTML = minus;
+            } else {
+                var subID = "subtotal_" + i;
+                document.getElementById(subID).innerHTML = 0;
+            }
+
+            var ID = "select_" + i;
+            document.getElementById(ID).value = selectObject.value;
+        }
+    }
+
+    function btn_rollBack() {
+        var array_rollBack = [];
+        var array_rollPush = [];
+        for (var i = 0; i < key_array.length; i++) {
+            var k = 0
+            firebase.database().ref("ictdrink_rollback/" + key_array[i] + "/employee/balance").on("value", function(snapshot) {
+                //array_rollBack[i] = snapshot.val();
+                //$('tr').remove();
+                array_rollBack.push(snapshot.val());
+                console.log("array_rollBack[]:" + array_rollBack[i])
+                if (k == (key_array.length - 1)) {
+                    console.log("!!!!!!!!!!!!k=" + k)
+                    for (var j = 0; j < key_array.length; j++) {
+                        //console.log("array_rollBack["+j+"]" + array_rollBack[j])
+                        firebase.database().ref("ictdrink_test/" + key_array[j] + "/employee").update({ balance: array_rollBack[j] });
+                    }
+                }
+                k++
+            });
+            //var ID = "test_"+i;
+            //var value = parseInt(document.getElementById(ID).innerHTML) + parseInt(array_rollBack[i]);
+            //array_rollPush.push(value)
+
+            //console.log("array_rollPush["+i+"]" + array_rollPush[i])
+        }
+
+        var array_rollMoney = [];
+        firebase.database().ref("ictdrink_rollback/money").on("value", function(snapshot){
+            array_rollMoney.push(snapshot.val());
+            console.log(array_rollMoney);
+            firebase.database().ref("ictdrink_money").update({money: array_rollMoney[0]})
+        })
+        //for(var i = 0; i < key_array.length; i++){
+        //    firebase.database().ref("ictdrink_test/"+key_array[i]+"/employee").update({ balance: array_rollPush[i] });
+        //}
+    }
+    </script>
+</head>
+
+<body>
+    <script>
+        //-----------------------------------------------------------------------------------------------
+$("#table_of_items tr").remove();
 document.addEventListener('DOMContentLoaded', function() {
     const loadEl = document.querySelector('#load');
-        var total = 0;
-        
-        var ref = firebase.database().ref('ictdrink_test');
-        ref.on("value", function(snapshot) {
-            var body = document.getElementsByTagName('body')[0];
-            var prev_tbl_exist = 0;
-            //document.getElementsByTagName('body')[0].innerHTML = '';
-              //var tbl = document.getElementById('tbl');
-            var tbl = document.getElementsByTagName('table')[0];
-            if (tbl != null) {
-                //alert("table exist");
-                body.removeChild(tbl);
-                console.log("%^%&%&%%++>table_remove")
-            }
-            
-            var tbl = document.createElement('table');
-            tbl.setAttribute('class', 'center');
-            tbl.setAttribute('border', '1');
-            
-            //var tbl = document.createElement('table');
-            
-            //var tbl = document.createElement('table');
-            
-            var tbdy = document.createElement('tbody');
-            
-              //tbl.style.width = '100%';
-            
-            /*var h_th = document.createElement('th');
-            h_th.appendChild(document.createTextNode("新吉廠"));
-            h_th.style.textAlign = "center";
-            h_th.colSpan = "5";
-            tbdy.appendChild(h_th);*/
-            
-            var h_tr = document.createElement('tr');
-            
-            
-            
-            var h_td0 = document.createElement('td');
-           // h_tr.appendChild(h_td0);
-                
-            var h_td = document.createElement('td');
-            h_td.appendChild(document.createTextNode("姓名"));
-            h_td.style.textAlign = "center";
-            h_tr.appendChild(h_td);
-            
-            var h_td6 = document.createElement('td');
-            h_td6.appendChild(document.createTextNode("餘額"));
-            h_td6.style.textAlign = "center";
-            h_tr.appendChild(h_td6);
+    var total = 0;
 
-            var h_td5 = document.createElement('td');
-            h_td5.appendChild(document.createTextNode("付款金額"));
-            h_td5.style.textAlign = "center";
-            h_tr.appendChild(h_td5);
-
-            var h_td4 = document.createElement('td');
-            h_td4.appendChild(document.createTextNode("小計"));
-            h_td4.style.textAlign = "center";
-            h_tr.appendChild(h_td4);
-            
-            var h_td7 = document.createElement('td');
-            h_td7.appendChild(document.createTextNode("付款方式"));
-            h_td7.style.textAlign = "center";
-            h_tr.appendChild(h_td7);
-       
-            tbdy.appendChild(h_tr);
-            var i=0;
-            key_array = [];
-            name_array = [];
-            work_no_array = [];
-            itemName_array = [];
-            quantity_array = [];
-            balance_array = [];
-            
-            date_array = [];
-            var total_count=0;
-            var total_price=0;
-
-            snapshot.forEach(function(childSnapshot) {
-                var k = childSnapshot.key;
-                var childData = childSnapshot.val();
-                var id=childData.id;
-                console.log(k);
-                key_array.push(childSnapshot.key);
-                console.log(childData.employee);
-                var employee = childData.employee;
-                total += employee.quantity*employee.price;
-                //total_count += parseInt(employee.quantity, 10);
-                //total_count = total_count + parseInt(employee.quantity, 10);
-                if (employee.quantity != null) {
-                    console.log("count = "+parseInt(employee.quantity, 10));
-                    total_count += parseInt(employee.quantity, 10);
-                    
-                    total_price += parseInt(employee.quantity, 10) *　parseInt(employee.price, 10)
-                }
-                //create tr
-                //姓名
-                var tr = document.createElement('tr');
-                var td1 = document.createElement('td');
-                td1.appendChild(document.createTextNode(employee.name));
-                td1.style.textAlign = "center";
-                
-                //alert("today = "+today+", employee.visitDate = "+employee.visitDate);
-                
-                /*if (today.localeCompare(employee.visitDate) == 0) { //visit today
-                    td.setAttribute('class', 'td_green');
-                }*/
-                
-                tr.appendChild(td1);
-                
-                name_array.push(employee.name);
-                
-                //var td1 = document.createElement('td');
-                //td1.appendChild(document.createTextNode(employee.empID));
-                //td1.style.textAlign = "center";
-                //tr.appendChild(td1);
-                //餘額
-                var td6= document.createElement('td');
-                td6.innerHTML = "<span id=\"balance_"+i+"\">"+employee.balance+"</span>";
-                td6.style.textAlign = "center";
-                tr.appendChild(td6);
-                //付款金額
-                var td4 = document.createElement('td');
-                //if (employee.itemName.length > 0) {
-                    td4.innerHTML = "<b><span id=\"payment_"+i+"\">"+employee.quantity*employee.price+"</span></b>";
-                //}
-                td4.style.textAlign = "center";
-                tr.appendChild(td4);
-                //小計
-                var td5 = document.createElement('td');
-                //if (employee.itemName.length > 0) {
-                    td5.innerHTML = "<b><span id=\"subtotal_"+i+"\">0</span></b>";
-                //}
-                td5.style.textAlign = "center";
-                tr.appendChild(td5);
-
-                var td7= document.createElement('td');
-                //td7.innerHTML = "<span id=\"balance_"+i+"\">&nbsp;"+employee.balance+"&nbsp;</span>";
-                //td7.innerHTML = "<input type='number' id='input_balance_"+i+"' value='"+employee.balance+"' style='width:150px;'>";
-
-                td7.innerHTML = "<select name='payment' id='select_"+i+"' style='height: 40px; width: 150px' onchange='getSelect("+i+")'><option value='0'>小金庫</option><option value='1'>企業贊助</option><option value='2'>使用儲值</option><option value='3'>現金</option></select>";
-                //td7.style.textAlign = "center";
-                tr.appendChild(td7);
-                tbdy.appendChild(tr);
-                i++;
-            });       
-            
-            tbl.appendChild(tbdy);
-            body.appendChild(tbl);
-
-            var br = document.createElement('br');
-            body.appendChild(br)
-            
-            
-        });
-        
-            firebase.database().ref('ictdrink_money/money').on("value",function(snapshot){
-
-                $("#removeID").remove();
-                var body = document.getElementsByTagName('body')[0];
-                var money = snapshot.val();
-                console.log("()++==>" + money)
-                var div = document.getElementsByTagName('div')[0];
-                /*if (div != null) {
-                //alert("table exist");
-                    body.removeChild(div);
-                    console.log("remove div><")
-                }*/
-                var div = document.createElement('div')
-                div.innerHTML = "<span>小金庫餘額:</span> <span>"+money+"</span><br><span>付款總額</span><span id='span_total'>"+total+"</span><span>結餘:</span><span>"+(money-total)+"</span>";
-                div.setAttribute('class','removeIT');
-                div.setAttribute("id",'removeID');
-                console.log("===>" + total)
-                body.appendChild(div)
-            })
-
-        /*
-        var ref_gold = firebase.database().ref('ictdrink_test/balance');
-        //var moneyValue = "0";
+    firebase.database().ref('ictdrink_money/money').on("value", function(snapshot) {
+        //顯示小金庫總額、結餘
+        $("#removeID").remove();
         var body = document.getElementsByTagName('body')[0];
-        ref_gold.on("value", function(snapshot) {
-            $("div").remove(); 
-            var moneyValue = snapshot.val();
-            var div = document.createElement('div');
-            div.innerHTML = "<b><input type=\"text\" id=\"input_money\" value=\""+moneyValue+"\"></b><button id=\"button_money\" onClick=\"onConfirm()\">確認</button>";
-            body.appendChild(div);
-            
-            
-            
-            
+        var money = snapshot.val();
+        console.log("()++==>" + money)
+        var div = document.getElementsByTagName('div')[0];
+        /*if (div != null) {
+        //alert("table exist");
+            body.removeChild(div);
+            console.log("remove div><")
+        }*/
+        var div = document.createElement('div')
+        div.innerHTML = "<div class='div_money'><span>小金庫餘額:</span> <span id='span_money'>" + money + "</span><br><span>付款總額</span><span id='span_total'>" + total + "</span><br><span>結餘:</span><span>" + (money - total) + "</span></div>";
+        div.setAttribute('class', 'removeIT');
+        div.setAttribute("id", 'removeID');
+        console.log("===>" + total)
+        body.appendChild(div)
+    });
+
+    var ref = firebase.database().ref('ictdrink_test');
+    ref.on("value", function(snapshot) {
+        //顯示整個table
+        var body = document.getElementsByTagName('body')[0];
+        var prev_tbl_exist = 0;
+        //document.getElementsByTagName('body')[0].innerHTML = '';
+        //var tbl = document.getElementById('tbl');
+        var tbl = document.getElementsByTagName('table')[0];
+        if (tbl != null) {
+            //alert("table exist");
+            body.removeChild(tbl);
+        }
+
+        var tbl = document.createElement('table');
+        tbl.setAttribute('class', 'center');
+        tbl.setAttribute('border', '1');
+
+        //var tbl = document.createElement('table');
+
+        //var tbl = document.createElement('table');
+
+        var tbdy = document.createElement('tbody');
+
+        //tbl.style.width = '100%';
+
+        /*var h_th = document.createElement('th');
+        h_th.appendChild(document.createTextNode("新吉廠"));
+        h_th.style.textAlign = "center";
+        h_th.colSpan = "5";
+        tbdy.appendChild(h_th);*/
+
+        var h_tr = document.createElement('tr');
+
+
+
+        var h_td0 = document.createElement('td');
+        // h_tr.appendChild(h_td0);
+
+        var h_td = document.createElement('td');
+        h_td.appendChild(document.createTextNode("姓名"));
+        h_td.style.textAlign = "center";
+        h_tr.appendChild(h_td);
+
+        var h_td6 = document.createElement('td');
+        h_td6.appendChild(document.createTextNode("餘額"));
+        h_td6.style.textAlign = "center";
+        h_tr.appendChild(h_td6);
+
+        var h_td5 = document.createElement('td');
+        h_td5.appendChild(document.createTextNode("付款金額"));
+        h_td5.style.textAlign = "center";
+        h_tr.appendChild(h_td5);
+
+        var h_td4 = document.createElement('td');
+        h_td4.appendChild(document.createTextNode("小計"));
+        h_td4.style.textAlign = "center";
+        h_tr.appendChild(h_td4);
+
+        var h_td7 = document.createElement('td');
+        h_td7.appendChild(document.createTextNode("付款方式"));
+        h_td7.style.textAlign = "center";
+        h_tr.appendChild(h_td7);
+
+        tbdy.appendChild(h_tr);
+        var i = 0;
+        key_array = [];
+        name_array = [];
+        work_no_array = [];
+        itemName_array = [];
+        quantity_array = [];
+        balance_array = [];
+
+        date_array = [];
+        var total_count = 0;
+        var total_price = 0;
+
+        snapshot.forEach(function(childSnapshot) {
+            var k = childSnapshot.key;
+            var childData = childSnapshot.val();
+            var id = childData.id;
+            console.log(k);
+            key_array.push(childSnapshot.key);
+            console.log(childData.employee);
+            var employee = childData.employee;
+            total += employee.quantity * employee.price;
+            //total_count += parseInt(employee.quantity, 10);
+            //total_count = total_count + parseInt(employee.quantity, 10);
+            if (employee.quantity != null) {
+                console.log("count = " + parseInt(employee.quantity, 10));
+                total_count += parseInt(employee.quantity, 10);
+
+                total_price += parseInt(employee.quantity, 10) * 　parseInt(employee.price, 10)
+            }
+            //create tr
+            //姓名
+            var tr = document.createElement('tr');
+            var td1 = document.createElement('td');
+            td1.appendChild(document.createTextNode(employee.name));
+            td1.style.textAlign = "center";
+
+            //alert("today = "+today+", employee.visitDate = "+employee.visitDate);
+
+            /*if (today.localeCompare(employee.visitDate) == 0) { //visit today
+                td.setAttribute('class', 'td_green');
+            }*/
+
+            tr.appendChild(td1);
+
+            name_array.push(employee.name);
+
+            //var td1 = document.createElement('td');
+            //td1.appendChild(document.createTextNode(employee.empID));
+            //td1.style.textAlign = "center";
+            //tr.appendChild(td1);
+            //餘額
+            var td6 = document.createElement('td');
+            td6.innerHTML = "<span id=\"balance_" + i + "\">" + employee.balance + "</span>";
+            td6.style.textAlign = "center";
+            tr.appendChild(td6);
+            //付款金額
+            var td4 = document.createElement('td');
+            //if (employee.itemName.length > 0) {
+            td4.innerHTML = "<b><span id=\"payment_" + i + "\">" + employee.quantity * employee.price + "</span></b>";
+            //}
+            td4.style.textAlign = "center";
+            tr.appendChild(td4);
+            //小計
+            var td5 = document.createElement('td');
+            //if (employee.itemName.length > 0) {
+            td5.innerHTML = "<b><span id=\"subtotal_" + i + "\">0</span></b>";
+            //}
+            td5.style.textAlign = "center";
+            tr.appendChild(td5);
+
+            var td2 = document.createElement('td');
+            td2.innerHTML = "<span id='test_" + i + "'>0</span>";
+            td2.setAttribute('class', 'hide');
+            tr.appendChild(td2)
+
+            var td7 = document.createElement('td');
+            //td7.innerHTML = "<span id=\"balance_"+i+"\">&nbsp;"+employee.balance+"&nbsp;</span>";
+            //td7.innerHTML = "<input type='number' id='input_balance_"+i+"' value='"+employee.balance+"' style='width:150px;'>";
+
+            td7.innerHTML = "<select name='payment' id='select_" + i + "' style='height: 40px; width: 150px' onchange='getSelect(" + i + ")'><option value='0'>小金庫</option><option value='1'>企業贊助</option><option value='2'>使用儲值</option><option value='3'>現金</option></select>";
+            //td7.style.textAlign = "center";
+            tr.appendChild(td7);
+            tbdy.appendChild(tr);
+            i++;
         });
-        */
+
+        tbl.appendChild(tbdy);
+        body.appendChild(tbl);
+
+        var br = document.createElement('br');
+        body.appendChild(br)
+    });
+
+
+    /*
+    var ref_gold = firebase.database().ref('ictdrink_test/balance');
+    //var moneyValue = "0";
+    var body = document.getElementsByTagName('body')[0];
+    ref_gold.on("value", function(snapshot) {
+        $("div").remove(); 
+        var moneyValue = snapshot.val();
+        var div = document.createElement('div');
+        div.innerHTML = "<b><input type=\"text\" id=\"input_money\" value=\""+moneyValue+"\"></b><button id=\"button_money\" onClick=\"onConfirm()\">確認</button>";
+        body.appendChild(div);
+        
+        
         
         
     });
+    */
+
+
+});
 
 
 //---------------------------------------------------------------------------------------------      
@@ -391,13 +502,24 @@ document.addEventListener('DOMContentLoaded', function() {
         
     });
       
-     */ 
+    */
     </script>
-        <div class="div_home">
-            <input type="button" class="btn_home" value="回首頁" onclick="btn_home()" />
-        </div>
-        <div class="div_button">
-            <input type="button" class="input_button" value="確認結單" onclick="btn_save()" />
-        </div>
-    </body>
+    <div class="div_home">
+        <input type="button" class="btn_home" value="回首頁" onclick="btn_home()" />
+    </div>
+    <div class="div_button">
+        <input type="button" class="input_button" value="確認結單" onclick="btn_save()" />
+        <input type="button" class="input_button" value="rollBack" onclick="btn_rollBack()" />
+        <select name="select_all" id="select_all" class="selectAll" onchange='selectAll(this);'>
+            <option value="0">小金庫</option>
+            <option value="1">企業贊助</option>
+            <option value="2">使用儲值</option>
+            <option value="3">現金</option>
+        </select>
+    </div>
+    <div class="div_select">
+        
+    </div>
+</body>
+
 </html>

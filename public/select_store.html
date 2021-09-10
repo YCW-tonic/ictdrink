@@ -124,11 +124,13 @@ img {vertical-align: middle;}
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
 	<script>
+	img_url_array = [];
 		var slideIndex = 1;
 		//	showSlides(slideIndex);
 		var currentSelectImgUrl = "";
 		
 		function selectMenu() {
+		console.log(img_url_array.length);
 			if (confirm('確認使用此圖片?')) {
 				  // Save it!
 				console.log(currentSelectImgUrl);
@@ -219,6 +221,8 @@ img {vertical-align: middle;}
     	//function to save file
     	function uploadFile() {
       
+      		
+      
       		// Created a Storage Reference with root dir
       		var storageRef = firebase.storage().ref();
       		// Get the file from DOM
@@ -299,14 +303,18 @@ img {vertical-align: middle;}
     	      });
     	      res.items.forEach((itemRef) => {
     	        // All the items under listRef.
-    	    	  console.log(itemRef);
+    	          
+    	    	  //console.log(res.items.length);
+    	    	  
     	    	  itemRef.getDownloadURL().then(function(url){
-  	            	
+    	    	  	
+  	            	//console.log(url);
+  	            	img_url_array.push(url);
     	    		//var div = $("<div class=\"mySlides fade\"></div>");
     	    		
     	    		
     	    		//slide
-    	    		var $mySlides_fade = $('<div/>', {
+    	    		/*var $mySlides_fade = $('<div/>', {
     					"class" : 'mySlides fade',
 					}).appendTo('#slideshow_container');
     	    		 
@@ -326,7 +334,7 @@ img {vertical-align: middle;}
     	    		if (img_index == 1) {
     	    			currentSelectImgUrl = url;
     	    			$($mySlides_fade).attr("style", "display:block");
-    	    		}
+    	    		}*/
     	    		//var div = "<div class=\"mySlides fade\"><img id=\"poster"+img_index+"\" src=\""+url+"\" style=\"width:100%\" /></div>"; 
     	    		//$(div).appendTo('#slideshow_container');
     	    		
@@ -340,8 +348,39 @@ img {vertical-align: middle;}
   	                }).appendTo('#slideshow_container');*/
 
   	                img_index++;
+  	                
+  	                if (img_index > res.items.length) {
+  	                	console.log("Find last");
+  	                	img_url_array.sort();
+  	                	for (var i=1; i<img_index-1; i++) {
+  	                		var $mySlides_fade = $('<div/>', {
+    					"class" : 'mySlides fade',
+					}).appendTo('#slideshow_container');
+    	    		 
+    	    				var img = $('<img />').attr({
+  	                    			'id': 'poster'+i,
+  	                    			'src': img_url_array[i],
+  	                    			'style': 'width:100%'
+  	                		}).appendTo($mySlides_fade);
+    	    		
+    	    				//dot
+    	    				var $span = $('<span/>', {
+    						"class" : 'dot',
+    						"onclick" : 'currentSlide('+i+')'
+					}).appendTo('#dot_container');
+    	    		
+    	    		
+    	    				if (i == 1) {
+    	    					currentSelectImgUrl = img_url_array[i];
+    	    					$($mySlides_fade).attr("style", "display:block");
+    	    				}
+  	                	}
+  	                }
   	            });
+  	            
     	      });
+    	      
+    	      	
     	    }).catch((error) => {
     	      // Uh-oh, an error occurred!
     	    });
@@ -372,8 +411,6 @@ img {vertical-align: middle;}
     		
     		ListFiles();
     		
-    		
-    		
     	}
     	
     	function onLoadIndex() {
@@ -390,7 +427,7 @@ img {vertical-align: middle;}
 				//const data = snapshot.val();
 				console.log("snapshot.val() = "+snapshot.val());
 				
-			
+				
 			});
 		});
  </script>
