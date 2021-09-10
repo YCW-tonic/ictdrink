@@ -50,7 +50,7 @@
         border-radius: 3px;
     }
     .selectAll{
-        margin-left:10vw;
+        margin-left:40px;
         height: 40px; 
         width: 150px
         border:3px solid gray;
@@ -87,6 +87,7 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
     //var ref_gold = firebase.database().ref('ictdrink_money');
+
     function onConfirm() {
         var money_input = document.getElementById("input_money").value;
         console.log(money_input)
@@ -148,10 +149,11 @@
             // Do nothing!
             console.log('Thing was not saved to the database.');
         }
+        firebase.database().ref("ictdrink_rollback").update({ confirm: "Y" });
 
     }
 
-    function getSelect(idx) {
+    function zgetSelect(idx) {
         var ID = "select_" + idx;
         var selectID = document.getElementById(ID);
         var value = selectID.options[selectID.selectedIndex].value;
@@ -181,6 +183,44 @@
             var total = document.getElementById("span_total").innerHTML;
             document.getElementById("span_total").innerHTML = parseInt(total, 10) + parseInt(pay, 10);
         }
+            /*var spanMoney = document.getElementById("span_money").innerHTML;
+            var spanTotal = document.getElementById("span_total").innerHTML;
+            var count = spanMoney - spanTotal;
+            console.log("count====" + count);
+            document.getElementById("span_subtotal").innerHTML = count;*/
+    }
+
+    function getSelect(idx) {
+        var ID = "select_" + idx;
+        var selectID = document.getElementById(ID);
+        var value = selectID.options[selectID.selectedIndex].value;
+        if (value == "2") {//使用儲值，修改餘額
+                var balanceID = "balance_" + idx;
+                var balance = document.getElementById(balanceID).innerHTML;
+                var paymentID = "payment_" + idx;
+                var payment = document.getElementById(paymentID).innerHTML;
+
+                var minus = parseInt(balance, 10) - parseInt(payment, 10);
+                var subID = "subtotal_" + idx;
+                document.getElementById(subID).innerHTML = minus;
+        } else {//使用企業贊助&現金，小計=0
+                var subID = "subtotal_" + idx;
+                document.getElementById(subID).innerHTML = 0;
+        }
+        var payTotal = 0; //加總所有付款金額
+        for(var i = 0; i < key_array.length; i++){
+            var ID = "select_" + i;
+            var selectID = document.getElementById(ID);
+            var value = selectID.options[selectID.selectedIndex].value;
+            if(value == "0"){
+                var payEach = document.getElementById("payment_" + i).innerHTML;
+                payTotal += parseInt(payEach,10);
+                document.getElementById("span_total").innerHTML = payTotal;
+            }
+        }
+        var spanMoney = document.getElementById("span_money").innerHTML;
+        var minus = parseInt(spanMoney,10) - payTotal;
+        document.getElementById("span_subtotal").innerHTML = minus;
     }
 
     function selectAll(selectObject) {
@@ -203,6 +243,25 @@
             var ID = "select_" + i;
             document.getElementById(ID).value = selectObject.value;
         }
+
+        var payTotal = 0; //加總所有付款金額
+        for(var i = 0; i < key_array.length; i++){
+            var ID = "select_" + i;
+            var selectID = document.getElementById(ID);
+            var value = selectID.options[selectID.selectedIndex].value;
+            if(value == "0"){
+                var payEach = document.getElementById("payment_" + i).innerHTML;
+                payTotal += parseInt(payEach,10);
+                document.getElementById("span_total").innerHTML = payTotal;
+            }
+            else{
+                payTotal += 0;
+                document.getElementById("span_total").innerHTML = payTotal;
+            }
+        }
+        var spanMoney = document.getElementById("span_money").innerHTML;
+        var minus = parseInt(spanMoney,10) - payTotal;
+        document.getElementById("span_subtotal").innerHTML = minus;
     }
 
     function btn_rollBack() {
@@ -240,37 +299,33 @@
         //for(var i = 0; i < key_array.length; i++){
         //    firebase.database().ref("ictdrink_test/"+key_array[i]+"/employee").update({ balance: array_rollPush[i] });
         //}
+        firebase.database().ref("ictdrink_rollback").update({ confirm: "N" });
     }
     </script>
 </head>
 
 <body>
     <script>
-        //-----------------------------------------------------------------------------------------------
 $("#table_of_items tr").remove();
 document.addEventListener('DOMContentLoaded', function() {
+
+        var ifConfirm = ""//我是一個string
+        firebase.database().ref('ictdrink_rollback/confirm').on("value", function(snapshot) {
+            ifConfirm = snapshot.val();
+            if(ifConfirm == "N"){
+                document.getElementById('btn_rollback').disabled=true;
+                document.getElementById('btn_confirm').disabled=false;
+                console.log("ifConfirm=" + ifConfirm)
+            }
+            else if(ifConfirm == "Y"){
+                document.getElementById('btn_confirm').disabled=true;
+                document.getElementById('btn_rollback').disabled=false;
+                console.log("ifConfirm=" + ifConfirm)
+            }
+        });
+
     const loadEl = document.querySelector('#load');
     var total = 0;
-
-    firebase.database().ref('ictdrink_money/money').on("value", function(snapshot) {
-        //顯示小金庫總額、結餘
-        $("#removeID").remove();
-        var body = document.getElementsByTagName('body')[0];
-        var money = snapshot.val();
-        console.log("()++==>" + money)
-        var div = document.getElementsByTagName('div')[0];
-        /*if (div != null) {
-        //alert("table exist");
-            body.removeChild(div);
-            console.log("remove div><")
-        }*/
-        var div = document.createElement('div')
-        div.innerHTML = "<div class='div_money'><span>小金庫餘額:</span> <span id='span_money'>" + money + "</span><br><span>付款總額</span><span id='span_total'>" + total + "</span><br><span>結餘:</span><span>" + (money - total) + "</span></div>";
-        div.setAttribute('class', 'removeIT');
-        div.setAttribute("id", 'removeID');
-        console.log("===>" + total)
-        body.appendChild(div)
-    });
 
     var ref = firebase.database().ref('ictdrink_test');
     ref.on("value", function(snapshot) {
@@ -326,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function() {
         h_tr.appendChild(h_td5);
 
         var h_td4 = document.createElement('td');
-        h_td4.appendChild(document.createTextNode("小計"));
+        h_td4.appendChild(document.createTextNode("餘額小計"));
         h_td4.style.textAlign = "center";
         h_tr.appendChild(h_td4);
 
@@ -430,6 +485,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+    firebase.database().ref('ictdrink_money/money').on("value", function(snapshot) {
+        //顯示小金庫總額、結餘
+        $("#removeID").remove();
+        var body = document.getElementsByTagName('body')[0];
+        var money = snapshot.val();
+        console.log("()++==>" + money)
+        var div = document.getElementsByTagName('div')[0];
+        /*if (div != null) {
+        //alert("table exist");
+            body.removeChild(div);
+            console.log("remove div><")
+        }*/
+        var div = document.createElement('div')
+        div.innerHTML = "<div class='div_money'><span>小金庫餘額:</span> <span id='span_money'>" + money + "</span><br><span>付款總額:</span><span id='span_total'>" + total + "</span><br><span>結餘:</span><span id='span_subtotal'>" + (money - total) + "</span></div>";
+        div.setAttribute('class', 'removeIT');
+        div.setAttribute("id", 'removeID');
+        console.log("===>" + total)
+        body.appendChild(div)
+    });
+
     /*
     var ref_gold = firebase.database().ref('ictdrink_test/balance');
     //var moneyValue = "0";
@@ -508,17 +583,14 @@ document.addEventListener('DOMContentLoaded', function() {
         <input type="button" class="btn_home" value="回首頁" onclick="btn_home()" />
     </div>
     <div class="div_button">
-        <input type="button" class="input_button" value="確認結單" onclick="btn_save()" />
-        <input type="button" class="input_button" value="rollBack" onclick="btn_rollBack()" />
+        <input type="button" id="btn_confirm" class="input_button" value="確認結單" onclick="btn_save()" />
+        <input type="button" id="btn_rollback" class="input_button" value="rollBack" onclick="btn_rollBack()" />
         <select name="select_all" id="select_all" class="selectAll" onchange='selectAll(this);'>
             <option value="0">小金庫</option>
             <option value="1">企業贊助</option>
             <option value="2">使用儲值</option>
             <option value="3">現金</option>
         </select>
-    </div>
-    <div class="div_select">
-        
     </div>
 </body>
 
