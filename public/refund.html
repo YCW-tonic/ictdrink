@@ -66,7 +66,7 @@
             var int_money_input = parseInt(money_input, 10);
             console.log(int_money_input)
             //if(money != null){
-                firebase.database().ref("ictdrink_test").update({balance:int_money_input});
+                firebase.database().ref("ictdrink").update({balance:int_money_input});
             //}
         }
 
@@ -75,7 +75,7 @@
         }
         function refund(idx){
             if(confirm('確認退費?')){
-                firebase.database().ref("ictdrink_test/"+key_array[idx]+"/employee").update({balance: 0})
+                firebase.database().ref("ictdrink/"+key_array[idx]+"/employee").update({balance: 0})
             }
         }
         function btn_save () {
@@ -85,7 +85,7 @@
                 var balance_array=[];
                 var balance_val=[];
                 for(var j=0; j<key_array.length; j++){
-                    firebase.database().ref("ictdrink_test/"+key_array[j]+"/employee/balance").on("value", function(snapshot){
+                    firebase.database().ref("ictdrink/"+key_array[j]+"/employee/balance").on("value", function(snapshot){
                         console.log("=====>" + snapshot.val())
                         balance_val[j] = snapshot.val();
                     })
@@ -95,7 +95,7 @@
                 }
                 console.log(balance_array)
                 for (var i=0; i<key_array.length; i++) {
-                    firebase.database().ref("ictdrink_test/"+key_array[i]+"/employee").update({ balance: balance_array[i] });
+                    firebase.database().ref("ictdrink/"+key_array[i]+"/employee").update({ balance: balance_array[i] });
                 }
             
                   
@@ -117,7 +117,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const loadEl = document.querySelector('#load');
         
-        var ref = firebase.database().ref('ictdrink_test');
+        var ref = firebase.database().ref('ictdrink');
         ref.on("value", function(snapshot) {
             
             var body = document.getElementsByTagName('body')[0];
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         /*
-        var ref_gold = firebase.database().ref('ictdrink_test/balance');
+        var ref_gold = firebase.database().ref('ictdrink/balance');
         //var moneyValue = "0";
         var body = document.getElementsByTagName('body')[0];
         ref_gold.on("value", function(snapshot) {
@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(key);
         
         
-        var ref_gold = firebase.database().ref('ictdrink_test/balance');
+        var ref_gold = firebase.database().ref('ictdrink/balance');
         //var moneyValue = "0";
         var body = document.getElementsByTagName('body')[0];
         ref_gold.on("value", function(snapshot) {
