@@ -106,7 +106,7 @@
 $("tr").remove(); 
 document.addEventListener('DOMContentLoaded', function() {
     const loadEl = document.querySelector('#load');
-        
+        var total_balance = 0;
         var ref = firebase.database().ref('ictdrink');
         ref.on("value", function(snapshot) {
             
@@ -216,6 +216,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 td6.innerHTML = "<span id=\"balance_"+i+"\">&nbsp;"+employee.balance+"&nbsp;</span>";
                 td6.style.textAlign = "center";
                 tr.appendChild(td6);
+                total_balance += employee.balance;
+                console.log(employee.balance);
 
                 var td7= document.createElement('td');
                 //td7.innerHTML = "<span id=\"balance_"+i+"\">&nbsp;"+employee.balance+"&nbsp;</span>";
@@ -250,26 +252,11 @@ document.addEventListener('DOMContentLoaded', function() {
             var br = document.createElement('br');
             body.appendChild(br)
             
+            document.getElementById("total_balance").innerHTML = total_balance;
+            console.log("===>" + total_balance)
             
         });
-        
-        /*
-        var ref_gold = firebase.database().ref('ictdrink/balance');
-        //var moneyValue = "0";
-        var body = document.getElementsByTagName('body')[0];
-        ref_gold.on("value", function(snapshot) {
-            $("div").remove(); 
-            var moneyValue = snapshot.val();
-            var div = document.createElement('div');
-            div.innerHTML = "<b><input type=\"text\" id=\"input_money\" value=\""+moneyValue+"\"></b><button id=\"button_money\" onClick=\"onConfirm()\">確認</button>";
-            body.appendChild(div);
-            
-            
-            
-            
-        });
-        */
-        
+
         
     });
 
@@ -333,5 +320,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="div_button">
             <input type="button" class="input_button" value="確認儲值" onclick="btn_save()" />
         </div>
+        <span style="margin-left:100px;">總餘額:</span><span id="total_balance"></span>
     </body>
 </html>

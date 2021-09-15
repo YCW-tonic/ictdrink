@@ -293,12 +293,29 @@
             
         }
     	function onDeleteEmployee(idx) {
-    		
-    		var r = confirm("確定刪除？");
-    		if (r == true) {
-    			firebase.database().ref("ictdrink/"+key_array[idx]+"").remove();
-    		} 
-    		
+            var email = prompt('email');
+            var password = "";
+            if(email != ""){
+                password = prompt('password');
+            }
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
+                var user = userCredential.user;
+            
+                var r = confirm("確定刪除？");
+                if (r == true) {
+                    firebase.database().ref("ictdrink/"+key_array[idx]+"").remove();
+                } 
+            
+            })
+            .catch((error)=>{
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert('你木有權限~bye bye~')
+                console.log(errorCode)
+                console.log(errorMessage)
+            })
+            
     	}
     	
     	function updateItem(idx) {
@@ -892,9 +909,15 @@
     	        work_no_array.push(employee.empID);
 
                 var td7= document.createElement('td');
-                td7.innerHTML = "<span id=\"balance_"+i+"\">&nbsp;"+employee.balance+"&nbsp;</span>";
                 td7.style.textAlign = "center";
+                if(employee.quantity*employee.price > employee.balance){
+                    td7.innerHTML = "<span id=\"balance_"+i+"\" style='color:red'>&nbsp;"+employee.balance+"&nbsp;</span>";
+                }
+                else{
+                    td7.innerHTML = "<span id=\"balance_"+i+"\">&nbsp;"+employee.balance+"&nbsp;</span>";
+                }
                 tr.appendChild(td7);
+
 
     	        
     	        var td2 = document.createElement('td');    	        
