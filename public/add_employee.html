@@ -6,6 +6,11 @@
 
 <style>
 	
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  
+}
       
 .button {
   background-color: #008CBA; /* Blue */
@@ -153,7 +158,8 @@ function onConfirm() {
  			itemName : "",
  			pay: "0",
  			quantity: "0",
- 			price: "0"
+ 			price: "0",
+ 			balance: "0"
  		}
  	}).key;
 	console.log(key);
@@ -311,7 +317,7 @@ function reloadIndex() {
 			var prev_tbl_exist = 0;
 			//document.getElementsByTagName('body')[0].innerHTML = '';
 	    	  //var tbl = document.getElementById('tbl');
-	    	var tbl = document.getElementsByTagName('table')[0];
+	    	var tbl = document.getElementsByTagName('table')[1];
 	    	if (tbl != null) {
 	    		//alert("table exist");
 	    		body.removeChild(tbl);
