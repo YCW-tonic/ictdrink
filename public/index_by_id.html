@@ -100,6 +100,19 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
 	<script>
+		var myKey = "";
+		function getUrlVars() {
+	    	var vars = {};
+	    	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, 
+	    	function(m,key,value) {
+	        	vars[key] = value;
+	    	});
+	    	myKey = vars["key"];
+	    	
+	    	console.log("=-=>"+vars["key"]);
+	    	
+	    	return vars;
+		}
     	//function to save file
     	function uploadFile() {
       
@@ -212,50 +225,14 @@
     	}
 
         function updateGold(){
-        	/*firebase.auth().onAuthStateChanged((user) => {
-        		if (user) {
-        		    // User is signed in, see docs for a list of available properties
-        		    // https://firebase.google.com/docs/reference/js/firebase.User
-        		    var uid = user.uid;
-        		    console.log("user = "+user+"uid = "+uid);
-        		    window.location = 'lilGoldBox.html';
-        		    // ...
-        		} else {
-        		    // User is signed out
-        		    // ...
-        			var email = prompt('email');
-                    var password = "";
-                    if(email != ""){
-                        password = prompt('password');
-                    }
-
-                    firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
-                        var user = userCredential.user;
-                        window.location = 'lilGoldBox.html';
-                    })
-                    .catch((error)=>{
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        alert('你木有權限~bye bye~')
-                        console.log(errorCode)
-                        console.log(errorMessage)
-                    })
-        		}
-        	});*/
             var email = prompt('email');
             var password = "";
             if(email != ""){
                 password = prompt('password');
             }
-            
 
             firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
                 var user = userCredential.user;
-                user.getIdToken().then(idToken => {
-                   
-                    const csrfToken = getCookie('csrfToken')
-                    return postIdTokenToSessionLogin('/sessionLogin', idToken, csrfToken);
-                  });
                 window.location = 'lilGoldBox.html';
             })
             .catch((error)=>{
@@ -266,43 +243,9 @@
                 console.log(errorMessage)
             })
             
-            
-            
         }
 
         function updateBalance(){
-        	
-        	/*firebase.auth().onAuthStateChanged((user) => {
-        		if (user) {
-        		    // User is signed in, see docs for a list of available properties
-        		    // https://firebase.google.com/docs/reference/js/firebase.User
-        		    var uid = user.uid;
-        		    console.log("user = "+user+"uid = "+uid);
-        		    window.location = 'update_balance.html';
-        		    // ...
-        		} else {
-        		    // User is signed out
-        		    // ...
-        			var email = prompt('email');
-                    var password = "";
-                    if(email != ""){
-                        password = prompt('password');
-                    }
-
-                    firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
-                        var user = userCredential.user;
-                        window.location = 'update_balance.html';
-                    })
-                    .catch((error)=>{
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        alert('你木有權限~bye bye~')
-                        console.log(errorCode)
-                        console.log(errorMessage)
-                    })
-        		}
-        	});*/
-        	
             var email = prompt('email');
             var password = "";
             if(email != ""){
@@ -321,47 +264,13 @@
                 console.log(errorMessage)
             })
             
-            
         }
         function pay(){
-        	
-        	/*firebase.auth().onAuthStateChanged((user) => {
-        		if (user) {
-        		    // User is signed in, see docs for a list of available properties
-        		    // https://firebase.google.com/docs/reference/js/firebase.User
-        		    var uid = user.uid;
-        		    console.log("user = "+user+"uid = "+uid);
-        		    window.location = 'pay.html';
-        		    // ...
-        		} else {
-        		    // User is signed out
-        		    // ...
-        			var email = prompt('email');
-                    var password = "";
-                    if(email != ""){
-                        password = prompt('password');
-                    }
-
-                    firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
-                        var user = userCredential.user;
-                        window.location = 'pay.html';
-                    })
-                    .catch((error)=>{
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        alert('你木有權限~bye bye~')
-                        console.log(errorCode)
-                        console.log(errorMessage)
-                    })
-        		}
-        	});*/
-        	
             var email = prompt('email');
             var password = "";
             if(email != ""){
                 password = prompt('password');
             }
-        	
 
             firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
                 var user = userCredential.user;
@@ -377,50 +286,12 @@
             
         }
     	function refund(){
-    		
-    		/*firebase.auth().onAuthStateChanged((user) => {
-        		if (user) {
-        		    // User is signed in, see docs for a list of available properties
-        		    // https://firebase.google.com/docs/reference/js/firebase.User
-        		    var uid = user.uid;
-        		    console.log("user = "+user+"uid = "+uid);
-        		    window.location = 'refund.html';
-        		    // ...
-        		} else {
-        		    // User is signed out
-        		    // ...
-        			var email = prompt('email');
-                    var password = "";
-                    if(email != ""){
-                        password = prompt('password');
-                    }
-                    
-                    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-
-                    firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
-                        var user = userCredential.user;
-                        
-                        
-                        
-                        window.location = 'refund.html';
-                    })
-                    .catch((error)=>{
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        alert('你木有權限~bye bye~')
-                        console.log(errorCode)
-                        console.log(errorMessage)
-                    })
-        		}
-        	});
-    		*/
-    		
             var email = prompt('email');
             var password = "";
             if(email != ""){
                 password = prompt('password');
             }
-			
+
             firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
                 var user = userCredential.user;
                 window.location = 'refund.html';
@@ -435,47 +306,6 @@
             
         }
     	function onDeleteEmployee(idx) {
-    		
-    		/*firebase.auth().onAuthStateChanged((user) => {
-        		if (user) {
-        		    // User is signed in, see docs for a list of available properties
-        		    // https://firebase.google.com/docs/reference/js/firebase.User
-        		    var uid = user.uid;
-        		    console.log("user = "+user+"uid = "+uid);
-        		    var r = confirm("確定刪除？");
-                    if (r == true) {
-                        firebase.database().ref("ictdrink/"+key_array[idx]+"").remove();
-                    } 
-        		    // ...
-        		} else {
-        		    // User is signed out
-        		    // ...
-        			var email = prompt('email');
-                    var password = "";
-                    if(email != ""){
-                        password = prompt('password');
-                    }
-
-                    firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
-                    	var user = userCredential.user;
-                        
-                        var r = confirm("確定刪除？");
-                        if (r == true) {
-                            firebase.database().ref("ictdrink/"+key_array[idx]+"").remove();
-                        } 
-                    })
-                    .catch((error)=>{
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        alert('你木有權限~bye bye~')
-                        console.log(errorCode)
-                        console.log(errorMessage)
-                    })
-        		}
-        	});*/
-    		
-            
-    		
             var email = prompt('email');
             var password = "";
             if(email != ""){
@@ -597,103 +427,90 @@
     		}*/
     	}
     	
-    	function onCancell(idx) {
-
-    		var item_span_idx = "item_span_"+idx+"";
-    		var item_edit_idx = "item_edit_"+idx+"";
-    		var pay_select_idx = "item_select_pay_"+idx+"";
-    		var pay_show_idx = "item_span_pay_"+idx+"";
-    		var quantity_span_idx = "item_span_quantity_"+idx+"";
-    		var quantity_input_idx = "item_edit_quantity_"+idx+"";
-    		var price_span_idx = "item_span_price_"+idx+"";
-    		var price_input_idx = "item_edit_price_"+idx+"";
-    		var small_span_idx = "item_span_small_"+idx+"";
-    		var quantity_title_span_idx = "item_span_quantity_title_"+idx+"";
-    		var price_title_span_idx = "item_span_price_title_"+idx+"";
+    	function onCancell() {
     		
-    		var item_span = document.getElementById(item_span_idx);
-    		var item_edit = document.getElementById(item_edit_idx);
-    		var pay_select = document.getElementById(pay_select_idx);
-    		var pay_show = document.getElementById(pay_show_idx);
-    		var quantity_span = document.getElementById(quantity_span_idx);
-    		var quantity_input = document.getElementById(quantity_input_idx);
-    		var price_span = document.getElementById(price_span_idx);
-    		var price_input = document.getElementById(price_input_idx);
-    		var small_span = document.getElementById(small_span_idx);
-    		var quantity_title_span = document.getElementById(quantity_title_span_idx);
-    		var price_title_span = document.getElementById(price_title_span_idx);
-    		
-    		item_edit.style.display = "none";
-    		item_span.style.display = "block";
-    	
-    		if (pay_select != null) {
-    			pay_select.style.display = "none";
-    		}
-    		
-    		if (pay_show != null) {
-    			pay_show.style.display = "block";
-    		}
-    		
-    		if (quantity_span != null) {
-    			quantity_span.style.display = "block";
-    		}
-    		
-    		if (quantity_input != null) {
-    			quantity_input.style.display = "none";
-    		}
-    		
-    		if (price_span != null) {
-    			price_span.style.display = "block";
-    		}
-    		
-    		if (price_input != null) {
-    			price_input.style.display = "none";
-    		}
-    		
-    		if (small_span != null) {
-    			small_span.style.display = "block";
-    		}
-    		
-    		if (quantity_title_span != null) {
-    			quantity_title_span.style.display = "none";
-    		}
-    		
-    		if (price_title_span != null) {
-    			price_title_span.style.display = "none";
-    		}
-    		//current_idx = idx;
-
-    		for (var i=0; i<key_array.length; i++) {
-
-    			//delete
-    			//var btn_del_idx = "btn_del_"+i+"";
-    			//var btn_del = document.getElementById(btn_del_idx);
-    			//btn_del.style.display = "block";
-    			
-    			//update button
-    			var btn_update_idx = "update_btn_"+i+"";
-    			var btn_update = document.getElementById(btn_update_idx);
-    			btn_update.style.display = "block";
-    			
-    			//confirm button
-    			var confirm_btn_idx = "confirm_btn_"+i+"";
-    			var btn_confirm = document.getElementById(confirm_btn_idx);
-    			btn_confirm.style.display = "none";
-    			
-    			//cancel button
-    			var cancell_btn_idx = "cancell_btn_"+i+"";
-    			var btn_cancell = document.getElementById(cancell_btn_idx);
-    			btn_cancell.style.display = "none";
-    		}
-    		
+    		window.location = 'index.html';
     		
     	}
     	
-    	function onConfirm(idx) {
+    	
+    	function updateItem(e) {
+    		console.log("item:"+e);
+  		}
+    	
+    	function updateQuantity(e) {
+    		console.log("quantity:"+e);
+    		var item_edit_quantity = document.getElementById("item_edit_quantity");
+    		var item_edit_price = document.getElementById("item_edit_price");
+    		var item_span_calculate = document.getElementById("item_span_calculate");
+    		
+    		/*if (item_edit_quantity.value.length == 0) {
+    			item_edit_quantity.value = 0;
+    		} else if (item_edit_quantity.value < 0) {
+    			item_edit_quantity.value = 0;
+    		}*/
+    		
+    		
+    		
+    		item_span_calculate.textContent  = item_edit_quantity.value * item_edit_price.value;
+    	}
+    	
+    	function updatePrice(e) {
+    		console.log("price:"+e);
+    		var item_edit_quantity = document.getElementById("item_edit_quantity");
+    		var item_edit_price = document.getElementById("item_edit_price");
+    		var item_span_calculate = document.getElementById("item_span_calculate");
+    		
+    		/*if (item_edit_price.value.length == 0) {
+    			item_edit_price.value = 0;
+    		} else if (item_edit_price.value < 0) {
+    			item_edit_price.value = 0;
+    		}*/
+    		
+    		item_span_calculate.textContent  = item_edit_quantity.value * item_edit_price.value;
+    	}
+    	
+    	function onConfirm() {
+    		
+    		var item_edit_itemname = document.getElementById("item_edit_itemname");
+    		var item_edit_quantity = document.getElementById("item_edit_quantity");
+    		var item_edit_price = document.getElementById("item_edit_price");
+    		var item_select_pay = document.getElementById("item_select_pay");
+    		
+    		if (item_edit_quantity.value.length == 0 || item_edit_quantity.value < 0) {
+    			item_edit_quantity.value = 0;
+    		} 
+    		if (item_edit_price.value.length == 0 || item_edit_price.value < 0) {
+    			item_edit_price.value = 0;
+    		}
+
+    		/*if (item_edit_itemname.value.length == 0) {
+    			alert('訂單內容為空.')
+    			
+    			return;
+    		}
+    		
+    		if (item_edit_quantity.value.length == 0 || item_edit_quantity.value == 0 ) {
+    			alert('數量為0.')
+    			
+    			return;
+    		}
+    		
+    		if (item_edit_price.value.length == 0 || item_edit_price.value == 0) {
+    			alert('單價為0.')
+    			
+    			return;
+    		}*/
+    		
+    		if (item_select_pay != null) {
+    			firebase.database().ref("ictdrink/"+myKey+"/employee").update({ itemName: item_edit_itemname.value, pay: item_select_pay.value, quantity: item_edit_quantity.value, price: item_edit_price.value });
+    		} else {
+    			firebase.database().ref("ictdrink/"+myKey+"/employee").update({ itemName: item_edit_itemname.value, pay: "0", quantity: item_edit_quantity.value, price: item_edit_price.value });
+    		}
     		
     		
 
-    		var item_span_idx = "item_span_"+idx+"";
+    		/*var item_span_idx = "item_span_"+idx+"";
     		var item_edit_idx = "item_edit_"+idx+"";
     		var pay_select_idx = "item_select_pay_"+idx+"";
     		var pay_show_idx = "item_span_pay_"+idx+"";
@@ -817,43 +634,15 @@
     			firebase.database().ref("ictdrink/"+key_array[idx]+"/employee").update({ itemName: item_edit.value, pay: item_pay_select.value, quantity: fix_quantity, price: fix_price });
     		} else {
     			firebase.database().ref("ictdrink/"+key_array[idx]+"/employee").update({ itemName: item_edit.value, pay: "0", quantity: fix_quantity, price: fix_price });
-    		}
+    		}*/
     		
     		
-    		
+    		window.location = 'index.html';
     	}
     	
     	function clearAll () {
     		
-    		var email = prompt('email');
-            var password = "";
-            if(email != ""){
-                password = prompt('password');
-            }
-			
-            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
-                var user = userCredential.user;
-                if (confirm('確認清除所有人的訂購資料?')) {
-  					// Save it!
-  					for (var i=0; i<key_array.length; i++) {
-      					firebase.database().ref("ictdrink/"+key_array[i]+"/employee").update({ itemName: "", pay: "0", quantity: "0", price: "0" });
-      				} 
-  				} else {
-  				  	// Do nothing!
-  					console.log('Thing was not saved to the database.');
-  				}
-      		
-      			firebase.database().ref("ictdrink_rollback").update({ confirm: "N" });
-            })
-            .catch((error)=>{
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                alert('你木有權限~bye bye~')
-                console.log(errorCode)
-                console.log(errorMessage)
-            })
-    		
-    		/*if (confirm('確認清除所有人的訂購資料?')) {
+    		if (confirm('確認清除所有人的訂購資料?')) {
 				  // Save it!
 				for (var i=0; i<key_array.length; i++) {
     			firebase.database().ref("ictdrink/"+key_array[i]+"/employee").update({ itemName: "", pay: "0", quantity: "0", price: "0" });
@@ -865,7 +654,6 @@
 			}
     		
     		firebase.database().ref("ictdrink_rollback").update({ confirm: "N" });
-    		*/
     	}
  </script>
 
@@ -884,28 +672,28 @@
       }
     </style-->
   </head>
-  <body>
+  <body onload=getUrlVars();>
   
-  	<div align="center">
+  	<!--  div align="center">
         <input type="button" value="選擇菜單" onclick="selectStore()" />
         <input type="button" value="新增人員" onclick="addEmployee()" />
         <input type="button" value="小金庫" onclick="updateGold()" />
         <input type="button" value="儲值" onclick="updateBalance()" />
         <input type="button" value="退費" onclick="refund()"/>
     </div>
-    <!-- div id="img-area"></div-->
+    
   	<hr>
-  	<div align="center" id="no_image_show" style="display:none">目前沒有菜單，請按"選擇菜單" => "上傳菜單圖片"</div>
+  	<!-- div align="center" id="no_image_show" style="display:none">目前沒有菜單，請按"選擇菜單" => "上傳菜單圖片"</div-->
   	<div id="img-area" style="width:100%"></div>
   	
   	<hr>
-  	<div align="center"><input type="button" value="清除全部訂購資料" onclick="clearAll()" /><input type="button" value="結單" onclick="pay()" /></div>
+  	<!-- div align="center"><input type="button" value="清除全部訂購資料" onclick="clearAll()" /><input type="button" value="結單" onclick="pay()" /></div-->
   	<br>
-  	<div align="center"><b>請直接按"修改"來新增或修改資料。"刪除"為刪除人員，請注意。若誤刪，請從新增人員新增。 若購買超過1杯，請自行填入總數。</b></div>
+  	<!-- div align="center"><b>請直接按"修改"來新增或修改資料。"刪除"為刪除人員，請注意。若誤刪，請從新增人員新增。 若購買超過1杯，請自行填入總數。</b></div>
   	<hr>
   	<div align="center" id="total_show"><b><h1>目前總數 : <span id="current_total"></span></h1></b></div>
   	<div align="center" id="total_show"><b><h1>目前總價 : <span id="current_price"></span></h1></b></div>
-    <div align="center" id="total_show"><b><h1>小金庫餘額 : <span id="current_gold"></span></h1></b></div>
+    <div align="center" id="total_show"><b><h1>小金庫餘額 : <span id="current_gold"></span></h1></b></div-->
     <script>
     
     
@@ -940,28 +728,38 @@
  		}).key;
 		console.log(key);
 		*/
-		
+		//get key
+        var vars = {};
+    	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, 
+    	function(m,key,value) {
+        	vars[key] = value;
+    	});
+    	myKey = vars["key"];
+    	console.log("========>myKey = " + myKey);
 		
 		var ref = firebase.database().ref('ictdrink');
 		var ref_img = firebase.database().ref("ictdrink_select/url");
-		var ref_gold = firebase.database().ref('ictdrink_money/money');
-		var no_image_show = document.getElementById("no_image_show");
-		var total_show = document.getElementById("total_show");
-		var current_total = document.getElementById("current_total");
-		var current_price = document.getElementById("current_price");
+		var ref_with_key = firebase.database().ref("ictdrink/"+myKey+"").once("value");
 		
-        var total_gold=0;
-		var img_area = document.getElementById("img-area");
+		console.log("========>ref_with_key = " + ref_with_key.employee);
+		//var ref_gold = firebase.database().ref('ictdrink_money/money');
+		//var no_image_show = document.getElementById("no_image_show");
+		//var total_show = document.getElementById("total_show");
+		//var current_total = document.getElementById("current_total");
+		//var current_price = document.getElementById("current_price");
+		
+        //var total_gold=0;
+		/*var img_area = document.getElementById("img-area");
 
         ref_gold.on("value", function(snapshot) {
                 const data = snapshot.val();
                 total_gold = data;
                 console.log("========>" + data)
-        });
+        });*/
 		ref_img.on('value', (snapshot) => {
 			const data = snapshot.val();
 			if (data == null) {
-				no_image_show.style.display = "block";
+				//no_image_show.style.display = "block";
 				img_area.style.display = "none";
 			}
 			console.log("data = "+data);
@@ -976,13 +774,192 @@
 		
 		console.log(ref_img);
 		
-		ref.on("value", function(snapshot) {
+		//single
+		ref.once("value", function(snapshot) {
 			
 			var body = document.getElementsByTagName('body')[0];
 			var prev_tbl_exist = 0;
 			//document.getElementsByTagName('body')[0].innerHTML = '';
 	    	  //var tbl = document.getElementById('tbl');
-	    	var tbl = document.getElementsByTagName('table')[0];
+	    	var tb0 = document.getElementsByTagName('table')[0];
+	    	if (tb0 != null) {
+	    		//alert("table exist");
+	    		body.removeChild(tb0);
+	    		
+	    	}
+	    	
+	    	var tb0 = document.createElement('table');
+    		tb0.setAttribute('class', 'center');
+	    	tb0.setAttribute('border', '1');
+	    	tb0.setAttribute('width', '100%');
+	    	
+	    	//var tbl = document.createElement('table');
+    		
+	    	//var tbl = document.createElement('table');
+    		
+	    	var tbdy = document.createElement('tbody');
+			
+			snapshot.forEach(function(childSnapshot) {
+				var k = childSnapshot.key;
+  				var childData = childSnapshot.val();
+  				var id=childData.id;
+  				//console.log(k+" / "+myKey);
+  				
+  				if (k == myKey) {
+  					console.log(childData.employee);
+  	  			    var employee = childData.employee;
+  	  			    
+  	  			    //name
+  	  				var tr1 = document.createElement('tr');
+  	  				tr1.colspan = 2;
+  		   
+  					var h_td_1 = document.createElement('td');
+  					h_td_1.appendChild(document.createTextNode("姓名"));
+  					h_td_1.style.textAlign = "center";
+  					tr1.appendChild(h_td_1);
+  					
+  					var td1 = document.createElement('td');
+  	  				td1.appendChild(document.createTextNode(employee.name));
+  	  				td1.style.textAlign = "center";
+  	    	        tr1.appendChild(td1);
+  	    	        
+  	    	      	tbdy.appendChild(tr1);
+  	    	        
+  	    	        //balance
+  	    	      	var tr2 = document.createElement('tr');
+	  				tr2.colspan = 2;
+  	    	        
+	  				var h_td_2 = document.createElement('td');
+  					h_td_2.appendChild(document.createTextNode("餘額"));
+  					h_td_2.style.textAlign = "center";
+  					tr2.appendChild(h_td_2);
+  					
+  					var td2 = document.createElement('td');
+  					td2.appendChild(document.createTextNode(employee.balance));
+  					td2.style.textAlign = "center";
+  					tr2.appendChild(td2);
+  	    	        
+  					tbdy.appendChild(tr2);
+  					
+  					//item
+  	    	      	var tr3 = document.createElement('tr');
+	  				tr3.colspan = 2;
+  	    	        
+	  				var h_td_3 = document.createElement('td');
+  					h_td_3.appendChild(document.createTextNode("訂單內容(甜度、冰量)"));
+  					h_td_3.style.textAlign = "center";
+  					tr3.appendChild(h_td_3);
+  					
+  					var td3 = document.createElement('td');
+  					td3.innerHTML = "<b><textarea rows=\"4\" id=\"item_edit_itemname\" oninput=\"updateItem(this.value)\" style=\"width:90%\">"+employee.itemName+"</textarea></b>";
+  					//td3.appendChild(document.createTextNode(employee.item));
+  					//td3.style.textAlign = "center";
+  					tr3.appendChild(td3);
+  					tbdy.appendChild(tr3);
+  					
+  					//quantity
+  	    	      	var tr4 = document.createElement('tr');
+	  				tr4.colspan = 2;
+  	    	        
+	  				var h_td_4 = document.createElement('td');
+	  				h_td_4.appendChild(document.createTextNode("數量"));
+	  				h_td_4.style.textAlign = "center";
+  					tr4.appendChild(h_td_4);
+  					
+  					var td4 = document.createElement('td');
+  					td4.innerHTML = "<b><input type=\"number\" id=\"item_edit_quantity\" value=\""+employee.quantity+"\" oninput=\"updateQuantity(this.value)\" style=\"width:50px\"></b>";
+  					//td3.appendChild(document.createTextNode(employee.item));
+  					//td3.style.textAlign = "center";
+  					tr4.appendChild(td4);
+  					
+  					tbdy.appendChild(tr4);
+  					
+  					//price
+  	    	      	var tr5 = document.createElement('tr');
+	  				tr5.colspan = 2;
+  	    	        
+	  				var h_td_5 = document.createElement('td');
+	  				h_td_5.appendChild(document.createTextNode("單價"));
+	  				h_td_5.style.textAlign = "center";
+  					tr5.appendChild(h_td_5);
+  					
+  					var td5 = document.createElement('td');
+  					td5.innerHTML = "<b><input type=\"number\" id=\"item_edit_price\" value=\""+employee.price+"\" oninput=\"updatePrice(this.value)\" style=\"width:50px\"></b>";
+  					//td3.appendChild(document.createTextNode(employee.item));
+  					//td3.style.textAlign = "center";
+  					tr5.appendChild(td5);
+  					
+  					tbdy.appendChild(tr5);
+  					
+  					//calculate
+  	    	      	var tr6 = document.createElement('tr');
+	  				tr6.colspan = 2;
+  	    	        
+	  				var h_td_6 = document.createElement('td');
+	  				h_td_6.appendChild(document.createTextNode("小計"));
+	  				h_td_6.style.textAlign = "center";
+  					tr6.appendChild(h_td_6);
+  					
+  					var td6 = document.createElement('td');
+  					td6.innerHTML = "<b><span id=\"item_span_calculate\">&nbsp;"+employee.quantity*employee.price+"&nbsp;</span></b>";
+  					//td3.appendChild(document.createTextNode(employee.item));
+  					//td3.style.textAlign = "center";
+  					tr6.appendChild(td6);
+  					
+  					tbdy.appendChild(tr6);
+  					
+  					//pay
+  	    	      	var tr7 = document.createElement('tr');
+	  				tr7.colspan = 2;
+  	    	        
+	  				var h_td_7 = document.createElement('td');
+	  				h_td_7.appendChild(document.createTextNode("是否付款"));
+	  				h_td_7.style.textAlign = "center";
+  					tr7.appendChild(h_td_7);
+  					
+  					var td7 = document.createElement('td');
+  					if (employee.pay == "1") {
+    	        		td7.innerHTML += "<select id=\"item_pay_select\"><option value=\"0\">未付款</option><option value=\"1\" selected>已付款</option></select>";
+    	        	} else {
+    	        		td7.innerHTML += "<select id=\"item_pay_select\"><option value=\"0\">未付款</option><option value=\"1\">已付款</option></select>";
+    	        	}
+  					
+  					//var td7 = document.createElement('td');
+  					//td7.innerHTML = "<b><span id=\"item_span_calculate\">&nbsp;"+employee.quantity*employee.price+"&nbsp;</span></b>";
+  					
+  					tr7.appendChild(td7);
+  					
+  					tbdy.appendChild(tr7);
+  					
+  				}
+  			   
+			});
+			
+			
+			
+			tb0.appendChild(tbdy);
+	    	body.appendChild(tb0);
+	    	
+	    	var hr = document.createElement('hr');
+	    	body.appendChild(hr)
+	    	var br = document.createElement('br');
+	    	body.appendChild(br)
+	    	
+	    	
+	    	var div = document.createElement('div');
+	    	div.setAttribute("align", "center");
+	    	div.innerHTML = "<input type=\"button\" class=\"button_red\" value=\"取消\" onclick=\"onCancell()\" />&nbsp;&nbsp;&nbsp;<input type=\"button\" class=\"button\" value=\"確定\" onclick=\"onConfirm()\" />";
+	    	body.appendChild(div)
+		});
+		
+		//multi
+		/*ref.on("value", function(snapshot) {
+			
+			var body = document.getElementsByTagName('body')[0];
+			var prev_tbl_exist = 0;
+			//document.getElementsByTagName('body')[0].innerHTML = '';
+	    	  //var tbl = document.getElementById('tbl');
+	    	var tbl = document.getElementsByTagName('table')[1];
 	    	if (tbl != null) {
 	    		//alert("table exist");
 	    		body.removeChild(tbl);
@@ -1001,11 +978,7 @@
 			
 	    	  //tbl.style.width = '100%';
 	    	
-	    	/*var h_th = document.createElement('th');
-	    	h_th.appendChild(document.createTextNode("新吉廠"));
-	    	h_th.style.textAlign = "center";
-	    	h_th.colSpan = "5";
-	    	tbdy.appendChild(h_th);*/
+	    	
 	    	
 	    	var h_tr = document.createElement('tr');
 	    	
@@ -1047,9 +1020,9 @@
 	      	h_tr.appendChild(h_td6);
   	        
   	       
-  	        //var h_td3 = document.createElement('td');
+  	        var h_td3 = document.createElement('td');
   	      	//h_td3.innerHTML = "<td><input type=\"button\" id=\"calendar_trigger_"+i+"\" onClick=\"changeDate("+i+")\" value=\"修改時間\"></td>";
-  	      	//h_tr.appendChild(h_td3);
+  	      	h_tr.appendChild(h_td3);
   	        
   	        tbdy.appendChild(h_tr);
 	    	  
@@ -1100,15 +1073,10 @@
     	        today = yyyy + '-' + mm + '-' + dd;
     	        
   				var td1 = document.createElement('td');
-  				//td1.appendChild(document.createTextNode(employee.name));
+  				td1.appendChild(document.createTextNode(employee.name));
   				td1.style.textAlign = "center";
-  				td1.innerHTML = "<b><span id=\"item_span_"+i+"\"><a href=\"/index_by_id.html?key="+childSnapshot.key+"\">"+employee.name+"</a></span></b>";
   				
   				//alert("today = "+today+", employee.visitDate = "+employee.visitDate);
-  				
-  				/*if (today.localeCompare(employee.visitDate) == 0) { //visit today
-  					td.setAttribute('class', 'td_green');
-  				}*/
   				
     	        tr.appendChild(td1);
     	        
@@ -1153,9 +1121,7 @@
     	    	        
     	        
     	        td2.style.textAlign = "center";
-    	        /*if (today.localeCompare(employee.visitDate) == 0) { //visit today
-    	        	td2.setAttribute('class', 'td_green');
-  				}*/
+    	       
     	        tr.appendChild(td2);
     	        
   				itemName_array.push(employee.itemName);
@@ -1183,13 +1149,13 @@
   				tr.appendChild(td6);
   				
     	       
-    	        /*var td3 = document.createElement('td');
+    	        var td3 = document.createElement('td');
     	        td3.innerHTML = "<td>";
     	        td3.innerHTML += "<input type=\"button\" class=\"button_green\" id=\"update_btn_"+i+"\" onClick=\"updateItem("+i+")\" value=\"修改\">"
     	        td3.innerHTML += "<input type=\"button\" class=\"button\" id=\"confirm_btn_"+i+"\" onClick=\"onConfirm("+i+")\" value=\"確定\" style=\"display:none\">"
     	        td3.innerHTML += "<input type=\"button\" class=\"button_red\" id=\"cancell_btn_"+i+"\" onClick=\"onCancell("+i+")\" value=\"取消\" style=\"display:none\">"
     	        td3.innerHTML += "</td>";
-    	        tr.appendChild(td3);*/
+    	        tr.appendChild(td3);
     	        
     	        tbdy.appendChild(tr);
     	        
@@ -1202,9 +1168,9 @@
   				
  			});
 	    	
- 			current_total.innerHTML = total_count;
- 			current_price.innerHTML = total_price;
-            current_gold.innerHTML = total_gold;
+ 			//current_total.innerHTML = total_count;
+ 			//current_price.innerHTML = total_price;
+            //current_gold.innerHTML = total_gold;
  			
  			
  			
@@ -1216,7 +1182,7 @@
 	    	
 	    	
 		});
-		
+		*/
 		
         
         

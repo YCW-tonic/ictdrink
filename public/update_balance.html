@@ -216,8 +216,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 td6.innerHTML = "<span id=\"balance_"+i+"\">&nbsp;"+employee.balance+"&nbsp;</span>";
                 td6.style.textAlign = "center";
                 tr.appendChild(td6);
-                total_balance += employee.balance;
-                console.log(employee.balance);
+                total_balance += parseInt(employee.balance, 10);
+                console.log("emp balance = "+employee.balance);
+                console.log("total_balance = "+total_balance);
 
                 var td7= document.createElement('td');
                 //td7.innerHTML = "<span id=\"balance_"+i+"\">&nbsp;"+employee.balance+"&nbsp;</span>";
