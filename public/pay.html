@@ -145,12 +145,11 @@
             });
             var minus = parseInt(ictdrink_money, 10) - total;
             firebase.database().ref("ictdrink_money").update({ money: minus });
+            firebase.database().ref("ictdrink_rollback").update({ confirm: "Y" });
         } else {
             // Do nothing!
             console.log('Thing was not saved to the database.');
         }
-        firebase.database().ref("ictdrink_rollback").update({ confirm: "Y" });
-
     }
 
     function zgetSelect(idx) {

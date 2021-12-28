@@ -857,32 +857,30 @@
 					Object.values(myOrder).forEach(val => {
 	  			    	console.log(val);
 	  					//td_order.innerHTML = "<div>訂單內容(甜度、冰量)</div><br>";
-	  					if (idx > 0) {
-	  						td2.innerHTML += "<hr>";
-	  					}
-	  					td2.innerHTML += "<b>"+val.orderItemName+"</b><br>";
-	  					td2.innerHTML += "<b>數量&nbsp;&nbsp;&nbsp;"+val.orderQuantity+"</b>&nbsp;&nbsp;&nbsp;";
-	  					td2.innerHTML += "<b>單價&nbsp;&nbsp;&nbsp;"+val.orderPrice+"</b>";
+	  					totalQuantity += parseInt(val.orderQuantity, 10);
+	  					totalPrice +=  parseInt(val.orderQuantity, 10) * parseInt(val.orderPrice, 10);
 	  					
+	  					td2.innerHTML += "<b>"+val.orderItemName+"</b><br>";
+	  					td2.innerHTML += "<b>數量&nbsp;&nbsp;&nbsp;"+val.orderQuantity+"&nbsp;&nbsp;&nbsp;</b>";
+	  					td2.innerHTML += "<b>單價&nbsp;&nbsp;&nbsp;"+val.orderPrice+"&nbsp;&nbsp;&nbsp; = "+ parseInt(val.orderQuantity, 10) * parseInt(val.orderPrice, 10)+"</b>";
+	  					td2.innerHTML += "<hr>";
 	  					
 	  					
 	  					idx++;
 	  					orderCount++;
-	  					totalQuantity += parseInt(val.orderQuantity, 10);
-	  					total_count += totalQuantity;
-	  					totalPrice +=  parseInt(val.orderQuantity, 10) * parseInt(val.orderPrice, 10);
-	  					total_price += totalPrice;
+	  					
 	  			  	});
 					
 				}
-    	        
+				total_count += totalQuantity;
+				total_price += totalPrice;
     	        
     	        if (employee.itemName.length > 0) {
-    	        	if (employee.pay == "1") {
-    	        		td2.innerHTML += "<br><select id=\"item_select_pay_"+i+"\" style=\"display:none\"><option value=\"0\">未付款</option><option value=\"1\" selected>已付款</option></select>";
+    	        	/*if (employee.pay == "1") {
+    	        		td2.innerHTML += "<select id=\"item_select_pay_"+i+"\" style=\"display:none\"><option value=\"0\">未付款</option><option value=\"1\" selected>已付款</option></select>";
     	        	} else {
-    	        		td2.innerHTML += "<br><select id=\"item_select_pay_"+i+"\" style=\"display:none\"><option value=\"0\">未付款</option><option value=\"1\">已付款</option></select>";
-    	        	}
+    	        		td2.innerHTML += "<select id=\"item_select_pay_"+i+"\" style=\"display:none\"><option value=\"0\">未付款</option><option value=\"1\">已付款</option></select>";
+    	        	}*/
     	        	
     	        	if (employee.pay == "1") {
         	        	td2.innerHTML += "<b><span id=\"item_span_pay_"+i+"\" style=\"color:green;\">已付款</span></b>";
