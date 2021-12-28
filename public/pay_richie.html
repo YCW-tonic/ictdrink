@@ -87,19 +87,21 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
     //var ref_gold = firebase.database().ref('ictdrink_money');
-
+	var orderCount=0;
+	var totalQuantity=0;
+	var totalPrice=0;
     function onConfirm() {
         var money_input = document.getElementById("input_money").value;
         console.log(money_input)
         var int_money_input = parseInt(money_input, 10);
         console.log(int_money_input)
         //if(money != null){
-        firebase.database().ref("ictdrink").update({ balance: int_money_input });
+        firebase.database().ref("ictdrink_test").update({ balance: int_money_input });
         //}
     }
 
     function btn_home() {
-        window.location = 'index.html';
+        window.location = 'index_richie.html';
     }
 
     function btn_save() {
@@ -109,11 +111,11 @@
                 var spanRoll = document.getElementById(balanceID).innerHTML;
                 var intSpanRoll = parseInt(spanRoll, 10);
                 console.log(intSpanRoll)
-                firebase.database().ref("ictdrink_rollback/" + key_array[i] + "/employee").update({ balance: intSpanRoll });
+                firebase.database().ref("ictdrink_rollback_test/" + key_array[i] + "/employee").update({ balance: intSpanRoll });
             }
             var spanMoneyRoll = document.getElementById("span_money").innerHTML;
             var intSpanMoneyRoll = parseInt(spanMoneyRoll, 10);
-            firebase.database().ref("ictdrink_rollback").update({ money: intSpanMoneyRoll })
+            firebase.database().ref("ictdrink_rollback_test").update({ money: intSpanMoneyRoll })
 
             var updateSub = [];
             var total = 0
@@ -122,7 +124,7 @@
                 var selectID = "select_" + i;
                 var paySelect = document.getElementById(selectID);
                 var value = paySelect.options[paySelect.selectedIndex].value;
-                firebase.database().ref("ictdrink/" + key_array[i] + "/employee/balance").on("value", function(snapshot) {
+                firebase.database().ref("ictdrink_test/" + key_array[i] + "/employee/balance").on("value", function(snapshot) {
                     updateSub[i] = snapshot.val();
                 });
                 if (value == "0") {
@@ -138,18 +140,18 @@
                 }
             }
             for (var i = 0; i < key_array.length; i++) {
-                firebase.database().ref("ictdrink/" + key_array[i] + "/employee").update({ balance: updateSub[i] });
+                firebase.database().ref("ictdrink_test/" + key_array[i] + "/employee").update({ balance: updateSub[i] });
             }
-            firebase.database().ref('ictdrink_money/money').on("value", function(snapshot) {
+            firebase.database().ref('ictdrink_money_test/money').on("value", function(snapshot) {
                 ictdrink_money = snapshot.val();
             });
             var minus = parseInt(ictdrink_money, 10) - total;
-            firebase.database().ref("ictdrink_money").update({ money: minus });
+            firebase.database().ref("ictdrink_money_test").update({ money: minus });
         } else {
             // Do nothing!
             console.log('Thing was not saved to the database.');
         }
-        firebase.database().ref("ictdrink_rollback").update({ confirm: "Y" });
+        firebase.database().ref("ictdrink_rollback_test").update({ confirm: "Y" });
 
     }
 
@@ -269,7 +271,7 @@
         var array_rollPush = [];
         for (var i = 0; i < key_array.length; i++) {
             var k = 0
-            firebase.database().ref("ictdrink_rollback/" + key_array[i] + "/employee/balance").on("value", function(snapshot) {
+            firebase.database().ref("ictdrink_rollback_test/" + key_array[i] + "/employee/balance").on("value", function(snapshot) {
                 //array_rollBack[i] = snapshot.val();
                 //$('tr').remove();
                 array_rollBack.push(snapshot.val());
@@ -278,7 +280,7 @@
                     console.log("!!!!!!!!!!!!k=" + k)
                     for (var j = 0; j < key_array.length; j++) {
                         //console.log("array_rollBack["+j+"]" + array_rollBack[j])
-                        firebase.database().ref("ictdrink/" + key_array[j] + "/employee").update({ balance: array_rollBack[j] });
+                        firebase.database().ref("ictdrink_test/" + key_array[j] + "/employee").update({ balance: array_rollBack[j] });
                     }
                 }
                 k++
@@ -291,15 +293,15 @@
         }
 
         var array_rollMoney = [];
-        firebase.database().ref("ictdrink_rollback/money").on("value", function(snapshot){
+        firebase.database().ref("ictdrink_rollback_test/money").on("value", function(snapshot){
             array_rollMoney.push(snapshot.val());
             console.log(array_rollMoney);
-            firebase.database().ref("ictdrink_money").update({money: array_rollMoney[0]})
+            firebase.database().ref("ictdrink_money_test").update({money: array_rollMoney[0]})
         })
         //for(var i = 0; i < key_array.length; i++){
         //    firebase.database().ref("ictdrink/"+key_array[i]+"/employee").update({ balance: array_rollPush[i] });
         //}
-        firebase.database().ref("ictdrink_rollback").update({ confirm: "N" });
+        firebase.database().ref("ictdrink_rollback_test").update({ confirm: "N" });
     }
     </script>
 </head>
@@ -310,7 +312,7 @@ $("#table_of_items tr").remove();
 document.addEventListener('DOMContentLoaded', function() {
 
         var ifConfirm = ""//我是一個string
-        firebase.database().ref('ictdrink_rollback/confirm').on("value", function(snapshot) {
+        firebase.database().ref('ictdrink_rollback_test/confirm').on("value", function(snapshot) {
             ifConfirm = snapshot.val();
             if(ifConfirm == "N"){
                 document.getElementById('btn_rollback').disabled=true;
@@ -327,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadEl = document.querySelector('#load');
     var total = 0;
 
-    var ref = firebase.database().ref('ictdrink');
+    var ref = firebase.database().ref('ictdrink_test');
     ref.on("value", function(snapshot) {
         //顯示整個table
         var body = document.getElementsByTagName('body')[0];
@@ -411,9 +413,30 @@ document.addEventListener('DOMContentLoaded', function() {
             key_array.push(childSnapshot.key);
             console.log(childData.employee);
             var employee = childData.employee;
+            var myOrder = employee.order;
+            
+            
+			
+			
+			if (myOrder != null) {
+				totalQuantity = 0;
+				totalPrice = 0;
+				
+				Object.values(myOrder).forEach(val => {
+  			    	console.log(val);
+  					//td_order.innerHTML = "<div>訂單內容(甜度、冰量)</div><br>";
+  					
+  					totalQuantity += parseInt(val.orderQuantity, 10);
+  					
+  					totalPrice +=  parseInt(val.orderQuantity, 10) * parseInt(val.orderPrice, 10);
+  					
+  			  	});
+				
+				 
+			}
+            
             total += employee.quantity * employee.price;
-            //total_count += parseInt(employee.quantity, 10);
-            //total_count = total_count + parseInt(employee.quantity, 10);
+            
             if (employee.quantity != null) {
                 console.log("count = " + parseInt(employee.quantity, 10));
                 total_count += parseInt(employee.quantity, 10);
@@ -485,7 +508,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    firebase.database().ref('ictdrink_money/money').on("value", function(snapshot) {
+    firebase.database().ref('ictdrink_money_test/money').on("value", function(snapshot) {
         //顯示小金庫總額、結餘
         $("#removeID").remove();
         var body = document.getElementsByTagName('body')[0];
