@@ -548,7 +548,7 @@
                 if (confirm('確認清除所有人的訂購資料?')) {
   					// Save it!
   					for (var i=0; i<key_array.length; i++) {
-      					firebase.database().ref("ictdrink_test/"+key_array[i]+"/employee").update({ itemName: "", pay: "0", quantity: "0", price: "0" });
+      					firebase.database().ref("ictdrink_test/"+key_array[i]+"/employee").update({ itemName: "", pay: "0", quantity: "0", price: "0", order: null });
       				} 
   				} else {
   				  	// Do nothing!
@@ -862,7 +862,7 @@
 	  					
 	  					td2.innerHTML += "<b>"+val.orderItemName+"</b><br>";
 	  					td2.innerHTML += "<b>數量&nbsp;&nbsp;&nbsp;"+val.orderQuantity+"&nbsp;&nbsp;&nbsp;</b>";
-	  					td2.innerHTML += "<b>單價&nbsp;&nbsp;&nbsp;"+val.orderPrice+"&nbsp;&nbsp;&nbsp; = "+ parseInt(val.orderQuantity, 10) * parseInt(val.orderPrice, 10)+"</b>";
+	  					td2.innerHTML += "<b>單價&nbsp;&nbsp;&nbsp;"+val.orderPrice+"</b>";
 	  					td2.innerHTML += "<hr>";
 	  					
 	  					
@@ -875,20 +875,22 @@
 				total_count += totalQuantity;
 				total_price += totalPrice;
     	        
-    	        if (employee.itemName.length > 0) {
-    	        	/*if (employee.pay == "1") {
-    	        		td2.innerHTML += "<select id=\"item_select_pay_"+i+"\" style=\"display:none\"><option value=\"0\">未付款</option><option value=\"1\" selected>已付款</option></select>";
-    	        	} else {
-    	        		td2.innerHTML += "<select id=\"item_select_pay_"+i+"\" style=\"display:none\"><option value=\"0\">未付款</option><option value=\"1\">已付款</option></select>";
-    	        	}*/
+				/*if (employee.itemName.length > 0) {
+    	        	
     	        	
     	        	if (employee.pay == "1") {
         	        	td2.innerHTML += "<b><span id=\"item_span_pay_"+i+"\" style=\"color:green;\">已付款</span></b>";
         	        } else {
         	        	td2.innerHTML += "<b><span id=\"item_span_pay_"+i+"\" style=\"color:red;\">未付款</span></b>";
         	        }
+    	        }*/
+    	        if (employee.order != null) {
+    	        	if (employee.pay == "1") {
+    	        		td2.innerHTML += "<b><span id=\"item_span_pay_"+i+"\" style=\"color:green;\">已付款</span></b>";
+    	        	} else {
+    	        		td2.innerHTML += "<b><span id=\"item_span_pay_"+i+"\" style=\"color:red;\">未付款</span></b>";
+    	        	}
     	        }
-    	        
     	    	        
     	        
     	        td2.style.textAlign = "center";

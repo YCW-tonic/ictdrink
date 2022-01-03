@@ -87,8 +87,7 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
     //var ref_gold = firebase.database().ref('ictdrink_money');
-	var orderCount=0;
-	var totalPrice=0;
+
     function onConfirm() {
         var money_input = document.getElementById("input_money").value;
         console.log(money_input)
@@ -146,14 +145,11 @@
             });
             var minus = parseInt(ictdrink_money, 10) - total;
             firebase.database().ref("ictdrink_money").update({ money: minus });
-            
             firebase.database().ref("ictdrink_rollback").update({ confirm: "Y" });
         } else {
             // Do nothing!
             console.log('Thing was not saved to the database.');
         }
-        
-
     }
 
     function zgetSelect(idx) {
@@ -414,20 +410,15 @@ document.addEventListener('DOMContentLoaded', function() {
             key_array.push(childSnapshot.key);
             console.log(childData.employee);
             var employee = childData.employee;
-            var myOrder = employee.order;
-            
-            
-			
-            
-			
-            //total += employee.quantity * employee.price;
-            
-            /*if (employee.quantity != null) {
+            total += employee.quantity * employee.price;
+            //total_count += parseInt(employee.quantity, 10);
+            //total_count = total_count + parseInt(employee.quantity, 10);
+            if (employee.quantity != null) {
                 console.log("count = " + parseInt(employee.quantity, 10));
                 total_count += parseInt(employee.quantity, 10);
 
                 total_price += parseInt(employee.quantity, 10) * 　parseInt(employee.price, 10)
-            }*/
+            }
             //create tr
             //姓名
             var tr = document.createElement('tr');
@@ -457,18 +448,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //付款金額
             var td4 = document.createElement('td');
             //if (employee.itemName.length > 0) {
-            totalPrice = 0;
-			if (myOrder != null) {
-				Object.values(myOrder).forEach(val => {
-  			    	console.log(val);
-  					totalPrice +=  parseInt(val.orderQuantity, 10) * parseInt(val.orderPrice, 10);
-  			  	});
-				td4.innerHTML = "<b><span id=\"payment_" + i + "\">" + totalPrice + "</span></b>";
-			} else {
-				td4.innerHTML = "<b><span id=\"payment_" + i + "\">0</span></b>";
-			}
-			total += totalPrice;
-            //td4.innerHTML = "<b><span id=\"payment_" + i + "\">" + employee.quantity * employee.price + "</span></b>";
+            td4.innerHTML = "<b><span id=\"payment_" + i + "\">" + employee.quantity * employee.price + "</span></b>";
             //}
             td4.style.textAlign = "center";
             tr.appendChild(td4);

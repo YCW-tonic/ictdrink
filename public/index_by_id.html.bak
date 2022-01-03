@@ -100,10 +100,6 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
 	<script>
-		var orderCount=0;
-		var totalQuantity=0;
-		var totalPrice=0;
-		order_key_array = [];
 		var myKey = "";
 		function getUrlVars() {
 	    	var vars = {};
@@ -220,10 +216,216 @@
     	    });*/
     	}
     	
+    	function selectStore() {
+    		window.location = 'select_store.html';
+    	}
+    	
+    	function addEmployee() {
+    		window.location = 'add_employee.html';
+    	}
 
-        
+        function updateGold(){
+            var email = prompt('email');
+            var password = "";
+            if(email != ""){
+                password = prompt('password');
+            }
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
+                var user = userCredential.user;
+                window.location = 'lilGoldBox.html';
+            })
+            .catch((error)=>{
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert('你木有權限~bye bye~')
+                console.log(errorCode)
+                console.log(errorMessage)
+            })
+            
+        }
+
+        function updateBalance(){
+            var email = prompt('email');
+            var password = "";
+            if(email != ""){
+                password = prompt('password');
+            }
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
+                var user = userCredential.user;
+                window.location = 'update_balance.html';
+            })
+            .catch((error)=>{
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert('你木有權限~bye bye~')
+                console.log(errorCode)
+                console.log(errorMessage)
+            })
+            
+        }
+        function pay(){
+            var email = prompt('email');
+            var password = "";
+            if(email != ""){
+                password = prompt('password');
+            }
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
+                var user = userCredential.user;
+                window.location = 'pay.html';
+            })
+            .catch((error)=>{
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert('你木有權限~bye bye~')
+                console.log(errorCode)
+                console.log(errorMessage)
+            })
+            
+        }
+    	function refund(){
+            var email = prompt('email');
+            var password = "";
+            if(email != ""){
+                password = prompt('password');
+            }
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
+                var user = userCredential.user;
+                window.location = 'refund.html';
+            })
+            .catch((error)=>{
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert('你木有權限~bye bye~')
+                console.log(errorCode)
+                console.log(errorMessage)
+            })
+            
+        }
+    	function onDeleteEmployee(idx) {
+            var email = prompt('email');
+            var password = "";
+            if(email != ""){
+                password = prompt('password');
+            }
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential)=>{
+                var user = userCredential.user;
+            
+                var r = confirm("確定刪除？");
+                if (r == true) {
+                    firebase.database().ref("ictdrink/"+key_array[idx]+"").remove();
+                } 
+            
+            })
+            .catch((error)=>{
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert('你木有權限~bye bye~')
+                console.log(errorCode)
+                console.log(errorMessage)
+            })
+            
+    	}
     	
+    	function updateItem(idx) {
+
+    		var item_span_idx = "item_span_"+idx+"";
+    		var item_edit_idx = "item_edit_"+idx+"";
+    		var update_btn_idx = "update_btn_"+idx+"";
+    		var confirm_btn_idx = "confirm_btn_"+idx+"";
+    		var cancell_btn_idx = "cancell_btn_"+idx+"";
+    		var select_idx = "item_select_pay_"+idx+"";
+    		var show_apy_idx = "item_span_pay_"+idx+"";
+    		var quantity_span_idx = "item_span_quantity_"+idx+"";
+    		var quantity_input_idx = "item_edit_quantity_"+idx+"";
+    		var price_span_idx = "item_span_price_"+idx+"";
+    		var price_input_idx = "item_edit_price_"+idx+"";
+    		var small_span_idx = "item_span_small_"+idx+"";
+    		var quantity_title_span_idx = "item_span_quantity_title_"+idx+"";
+    		var price_title_span_idx = "item_span_price_title_"+idx+"";
+    		
+    		var item_span = document.getElementById(item_span_idx);
+    		var item_edit = document.getElementById(item_edit_idx);
+    		var update_btn = document.getElementById(update_btn_idx);
+    		var confirm_btn = document.getElementById(confirm_btn_idx);
+    		var cancell_btn = document.getElementById(cancell_btn_idx);
+    		var pay_select = document.getElementById(select_idx);
+    		var pay_show = document.getElementById(show_apy_idx);
+    		var quantity_span = document.getElementById(quantity_span_idx);
+    		var quantity_input = document.getElementById(quantity_input_idx);
+    		var price_span = document.getElementById(price_span_idx);
+    		var price_input = document.getElementById(price_input_idx);
+    		var small_span = document.getElementById(small_span_idx);
+    		var quantity_title_span = document.getElementById(quantity_title_span_idx);
+    		var price_title_span = document.getElementById(price_title_span_idx);
+    		
+    		item_edit.style.display = "block";
+    		item_edit.style.width = "90%";
+    		item_span.style.display = "none";
+    		update_btn.style.display = "none";
+    		confirm_btn.style.display = "block";
+    		cancell_btn.style.display = "block";
+    		if (pay_select != null) {
+    			pay_select.style.display = "block";
+    		}
+    		
+    		if (pay_show != null) {
+    			pay_show.style.display = "none";
+    		}
+    		
+    		if (quantity_span != null) {
+    			quantity_span.style.display = "none";
+    		}
+    		
+    		if (quantity_input != null) {
+    			quantity_input.style.display = "block";
+    		}
+    		
+    		if (price_span != null) {
+    			price_span.style.display = "none";
+    		}
+    		
+    		if (price_input != null) {
+    			price_input.style.display = "block";
+    		}
+    		
+    		if (small_span != null) {
+    			small_span.style.display = "none";
+    		}
+    		
+    		if (quantity_title_span != null) {
+    			quantity_title_span.style.display = "block";
+    		}
+    		
+    		if (price_title_span != null) {
+    			price_title_span.style.display = "block";
+    		}
     	
+    		//current_idx = idx;
+
+    		for (var i=0; i<key_array.length; i++) {
+
+    			var updatebtn_idx = "update_btn_"+i+"";
+    			var btn_update = document.getElementById(updatebtn_idx);
+    			btn_update.style.display = "none";
+    			
+    			//disable delete button
+    			//var btnDel_idx = "btn_del_"+i+"";
+    			//var btnDel = document.getElementById(btnDel_idx);
+    			//btnDel.style.display = "none";
+    		}
+    		
+    		/*for (var i=0; i<key_array.length; i++) {
+    			var btn_date_idx = "calendar_trigger_"+i+"";
+    			var btn_date = document.getElementById(btn_date_idx);
+    			
+    			btn_date.disabled = true;
+    		}*/
+    	}
     	
     	function onCancell() {
     		
@@ -236,147 +438,222 @@
     		console.log("item:"+e);
   		}
     	
-    	function updateQuantity(idx) {
-    		console.log("idx = "+idx);
-    		//var total_count = 0;
-    		var totalQuantity=0;
-    		var totalPrice=0;
-    		for (var i=0; i<orderCount; i++) {
-    			var item_edit_quantity_idx = "item_edit_quantity_"+i+"";
-    			var item_edit_price_idx = "item_edit_price_"+i+"";
-    			
-    			var item_edit_quantity_order = document.getElementById(item_edit_quantity_idx);
-    			var item_edit_price_order = document.getElementById(item_edit_price_idx);
-    			
-    			
-    			totalQuantity +=  parseInt(item_edit_quantity_order.value, 10);
-    			totalPrice += parseInt(item_edit_quantity_order.value, 10) * parseInt(item_edit_price_order.value, 10);
-    			console.log("totalPrice = "+totalPrice);
-    		}
+    	function updateQuantity(e) {
+    		console.log("quantity:"+e);
+    		var item_edit_quantity = document.getElementById("item_edit_quantity");
+    		var item_edit_price = document.getElementById("item_edit_price");
+    		var item_span_calculate = document.getElementById("item_span_calculate");
+    		
+    		/*if (item_edit_quantity.value.length == 0) {
+    			item_edit_quantity.value = 0;
+    		} else if (item_edit_quantity.value < 0) {
+    			item_edit_quantity.value = 0;
+    		}*/
     		
     		
     		
-    		//item_span_calculate.textContent  = item_edit_quantity.value * item_edit_price.value;
-    		//<b><span id=\"item_span_calculate\">數量 : "+totalQuantity+"&nbsp;&nbsp;&nbsp;"+employee.quantity*employee.price+"&nbsp;</span></b>
-    		innerStr = "數量 : "+totalQuantity+"   總價 : "+ totalPrice;
-    		item_span_calculate.textContent  = innerStr;
+    		item_span_calculate.textContent  = item_edit_quantity.value * item_edit_price.value;
     	}
     	
-    	function updatePrice(idx) {
-    		console.log("idx = "+idx);
-    		//var total_count = 0;
-    		var totalQuantity=0;
-    		var totalPrice=0;
-    		for (var i=0; i<orderCount; i++) {
-    			var item_edit_quantity_idx = "item_edit_quantity_"+i+"";
-    			var item_edit_price_idx = "item_edit_price_"+i+"";
-    			
-    			var item_edit_quantity_order = document.getElementById(item_edit_quantity_idx);
-    			var item_edit_price_order = document.getElementById(item_edit_price_idx);
-    			
-    			totalQuantity +=  parseInt(item_edit_quantity_order.value, 10);
-    			totalPrice += parseInt(item_edit_quantity_order.value, 10) * parseInt(item_edit_price_order.value, 10);
-    			console.log("totalPrice = "+totalPrice);
-    		}
+    	function updatePrice(e) {
+    		console.log("price:"+e);
+    		var item_edit_quantity = document.getElementById("item_edit_quantity");
+    		var item_edit_price = document.getElementById("item_edit_price");
+    		var item_span_calculate = document.getElementById("item_span_calculate");
     		
+    		/*if (item_edit_price.value.length == 0) {
+    			item_edit_price.value = 0;
+    		} else if (item_edit_price.value < 0) {
+    			item_edit_price.value = 0;
+    		}*/
     		
-    		
-    		//item_span_calculate.textContent  = item_edit_quantity.value * item_edit_price.value;
-    		innerStr = "數量 : "+totalQuantity+"   總價 : "+ totalPrice;
-    		item_span_calculate.textContent  = innerStr;
+    		item_span_calculate.textContent  = item_edit_quantity.value * item_edit_price.value;
     	}
     	
     	function onConfirm() {
     		
-    		//var item_edit_itemname = document.getElementById("item_edit_itemname");
-    		//var item_edit_quantity = document.getElementById("item_edit_quantity");
-    		//var item_edit_price = document.getElementById("item_edit_price");
-    		var item_pay_select = document.getElementById("item_pay_select");
+    		var item_edit_itemname = document.getElementById("item_edit_itemname");
+    		var item_edit_quantity = document.getElementById("item_edit_quantity");
+    		var item_edit_price = document.getElementById("item_edit_price");
+    		var item_select_pay = document.getElementById("item_select_pay");
     		
-    		/*if (item_edit_quantity.value.length == 0 || item_edit_quantity.value < 0) {
+    		if (item_edit_quantity.value.length == 0 || item_edit_quantity.value < 0) {
     			item_edit_quantity.value = 0;
     		} 
     		if (item_edit_price.value.length == 0 || item_edit_price.value < 0) {
     			item_edit_price.value = 0;
-    		}*/
-    		var totalQuantity=0;
-    		var totalPrice=0;
-    		
-    		console.log("orderCount : "+orderCount);
-    		console.log("order_key_array.length : "+order_key_array.length);
-    		for (var i=0; i<orderCount; i++) {
+    		}
 
-    			var item_edit_itemname_idx = "item_edit_itemname_"+i+"";
-    			var item_edit_quantity_idx = "item_edit_quantity_"+i+"";
-    			var item_edit_price_idx = "item_edit_price_"+i+"";
+    		/*if (item_edit_itemname.value.length == 0) {
+    			alert('訂單內容為空.')
     			
-    			var item_edit_itemname_order = document.getElementById(item_edit_itemname_idx);
-    			var item_edit_quantity_order = document.getElementById(item_edit_quantity_idx);
-    			var item_edit_price_order = document.getElementById(item_edit_price_idx);
-    			
-    			if (item_edit_itemname_order != null && item_edit_quantity_order != null &&　item_edit_price_order　!= null) {
-    				
-    				console.log("item_edit_itemname_order["+i+"].value = "+item_edit_itemname_order.value);
-    				if (item_edit_itemname_order.value == "" || item_edit_quantity_order.value == "" || item_edit_price_order.value == "") {
-    					console.log("Delete");
-    					firebase.database().ref("ictdrink/"+myKey+"/employee/order/"+order_key_array[i]+"").remove();
-    				} else {
-    					totalQuantity +=  parseInt(item_edit_quantity_order.value, 10);
-            			totalPrice += parseInt(item_edit_quantity_order.value, 10) * parseInt(item_edit_price_order.value, 10);
-        				console.log("get item "+i);
-        				
-        				if (i < order_key_array.length) { //update
-        					console.log("update");
-        					firebase.database().ref("ictdrink/"+myKey+"/employee/order/"+order_key_array[i]+"").update({ orderItemName: item_edit_itemname_order.value, orderPrice: item_edit_price_order.value, orderQuantity: item_edit_quantity_order.value});
-        				} else { //add
-        					key=firebase.database().ref("ictdrink/"+myKey+"/employee/order").push({
-        						orderItemName: item_edit_itemname_order.value,
-    							orderQuantity: item_edit_quantity_order.value,
-    			 				orderPrice : item_edit_price_order.value
-        			 		}).key;
-        					console.log(key);
-        				}
-    				}
-    				
-    				
-    				//order_key_array
-    				
-    			}
-    			
-    			
-    			//disable delete button
-    			//var btnDel_idx = "btn_del_"+i+"";
-    			//var btnDel = document.getElementById(btnDel_idx);
-    			//btnDel.style.display = "none";
+    			return;
     		}
     		
+    		if (item_edit_quantity.value.length == 0 || item_edit_quantity.value == 0 ) {
+    			alert('數量為0.')
+    			
+    			return;
+    		}
+    		
+    		if (item_edit_price.value.length == 0 || item_edit_price.value == 0) {
+    			alert('單價為0.')
+    			
+    			return;
+    		}*/
+    		
+    		if (item_select_pay != null) {
+    			firebase.database().ref("ictdrink/"+myKey+"/employee").update({ itemName: item_edit_itemname.value, pay: item_select_pay.value, quantity: item_edit_quantity.value, price: item_edit_price.value });
+    		} else {
+    			firebase.database().ref("ictdrink/"+myKey+"/employee").update({ itemName: item_edit_itemname.value, pay: "0", quantity: item_edit_quantity.value, price: item_edit_price.value });
+    		}
+    		
+    		
+
+    		/*var item_span_idx = "item_span_"+idx+"";
+    		var item_edit_idx = "item_edit_"+idx+"";
+    		var pay_select_idx = "item_select_pay_"+idx+"";
+    		var pay_show_idx = "item_span_pay_"+idx+"";
+    		var quantity_span_idx = "item_span_quantity_"+idx+"";
+    		var quantity_input_idx = "item_edit_quantity_"+idx+"";
+    		var price_span_idx = "item_span_price_"+idx+"";
+    		var price_input_idx = "item_edit_price_"+idx+"";
+    		var small_span_idx = "item_span_small_"+idx+"";
+    		var quantity_title_span_idx = "item_span_quantity_title_"+idx+"";
+    		var price_title_span_idx = "item_span_price_title_"+idx+"";
+    		
+    		var item_span = document.getElementById(item_span_idx);
+    		var item_edit = document.getElementById(item_edit_idx);
+    		var item_pay_select = document.getElementById(pay_select_idx);
+    		var item_pay_show = document.getElementById(pay_show_idx);
+    		var quantity_span = document.getElementById(quantity_span_idx);
+    		var quantity_input = document.getElementById(quantity_input_idx);
+    		var price_span = document.getElementById(price_span_idx);
+    		var price_input = document.getElementById(price_input_idx);
+    		var small_span = document.getElementById(small_span_idx);
+    		var quantity_title_span = document.getElementById(quantity_title_span_idx);
+    		var price_title_span = document.getElementById(price_title_span_idx);
+    		
+    		
+    		item_edit.style.display = "none";
+    		item_span.style.display = "block";
     		
     		if (item_pay_select != null) {
-    			firebase.database().ref("ictdrink/"+myKey+"/employee").update({ pay: item_pay_select.value});
-    		} else {
-    			firebase.database().ref("ictdrink/"+myKey+"/employee").update({ pay: "0"});
+    			item_pay_select.style.display = "none";
     		}
+    		
+    		if (item_pay_show != null) {
+    			item_pay_show.style.display = "block";
+    		}
+    		
+    		if (quantity_span != null) {
+    			quantity_span.style.display = "block";
+    		}
+    		
+    		if (quantity_input != null) {
+    			quantity_input.style.display = "none";
+    		}
+    		
+    		if (price_span != null) {
+    			price_span.style.display = "block";
+    		}
+    		
+    		if (price_input != null) {
+    			price_input.style.display = "none";
+    		}
+    		
+    		if (small_span != null) {
+    			small_span.style.display = "block";
+    		}
+    		
+    		if (quantity_title_span != null) {
+    			quantity_title_span.style.display = "none";
+    		}
+    		
+    		if (price_title_span != null) {
+    			price_title_span.style.display = "none";
+    		}
+    		
+    	
+    		//current_idx = idx;
+
+    		for (var i=0; i<key_array.length; i++) {
+
+    			//delete
+    			//var btn_del_idx = "btn_del_"+i+"";
+    			//var btn_del = document.getElementById(btn_del_idx);
+    			//btn_del.style.display = "block";
+    			
+    			//update button
+    			var btn_update_idx = "update_btn_"+i+"";
+    			var btn_update = document.getElementById(btn_update_idx);
+    			btn_update.style.display = "block";
+    			
+    			//confirm button
+    			var confirm_btn_idx = "confirm_btn_"+i+"";
+    			var btn_confirm = document.getElementById(confirm_btn_idx);
+    			btn_confirm.style.display = "none";
+    			
+    			//cancel button
+    			var cancell_btn_idx = "cancell_btn_"+i+"";
+    			var btn_cancell = document.getElementById(cancell_btn_idx);
+    			btn_cancell.style.display = "none";
+    			
+    			//pay select
+    			//var select_idx = "item_select_pay_"+i+"";
+    			//var select = document.getElementById(select_idx);
+    			//select.style.display = "none";
+    			
+    			//pay show
+    			//var pay_span_idx = "item_span_pay_"+i+"";
+    			//var pay_span = document.getElementById(pay_span_idx);
+    			//pay_span.style.display = "block";
+    		}
+    		
+    		var temp = parseInt(quantity_input.value, 10);
+    		var fix_quantity = "0";
+    		
+    		if (temp <= 0) {
+    			fix_quantity = "0";
+    		} else {
+    			fix_quantity = ""+temp+"";
+    			//fix_quantity = ""+quantity_input.value+"";
+    		}
+    		
+    		var temp_price = parseInt(price_input.value, 10);
+    		var fix_price = "0";
+    		
+    		if (temp_price <= 0) {
+    			fix_price = "0";
+    		} else {
+    			fix_price = ""+temp_price+"";
+    			//fix_price = ""+price_input.value+"";
+    		}
+    		
+    		if (item_pay_select != null) {
+    			firebase.database().ref("ictdrink/"+key_array[idx]+"/employee").update({ itemName: item_edit.value, pay: item_pay_select.value, quantity: fix_quantity, price: fix_price });
+    		} else {
+    			firebase.database().ref("ictdrink/"+key_array[idx]+"/employee").update({ itemName: item_edit.value, pay: "0", quantity: fix_quantity, price: fix_price });
+    		}*/
     		
     		
     		window.location = 'index.html';
     	}
     	
-    	function onAddOrder() {
-    		console.log("onAddOrder");
-    		var table = document.getElementById('mytable');
-    		var rowCount = table.rows.length;
-    		var row = table.insertRow(rowCount-2);
+    	function clearAll () {
     		
-    		var cell1 = row.insertCell(0);
-    		var cell2 = row.insertCell(1);
-
-    		orderCount = orderCount + 1;
-    		// Add some text to the new cells:
-    		cell1.innerHTML = "<div align=\"center\">訂單 "+orderCount+"</div>";
-    		cell2.innerHTML = "<div>訂單內容(甜度、冰量)</div><br>";
-    		cell2.innerHTML += "<b><textarea rows=\"4\" id=\"item_edit_itemname_"+(orderCount-1)+"\" oninput=\"updateItem(this.value)\" style=\"width:90%\"></textarea></b><br>";
-    		cell2.innerHTML += "數量&nbsp;&nbsp;&nbsp;<b><input type=\"number\" id=\"item_edit_quantity_"+(orderCount-1)+"\" value=\"\" oninput=\"updateQuantity("+(orderCount-1)+")\" style=\"width:50px\"></b><br><br>";
-    		cell2.innerHTML += "單價&nbsp;&nbsp;&nbsp;<b><input type=\"number\" id=\"item_edit_price_"+(orderCount-1)+"\" value=\"\" oninput=\"updatePrice("+(orderCount-1)+")\" style=\"width:50px\"></b>"
+    		if (confirm('確認清除所有人的訂購資料?')) {
+				  // Save it!
+				for (var i=0; i<key_array.length; i++) {
+    			firebase.database().ref("ictdrink/"+key_array[i]+"/employee").update({ itemName: "", pay: "0", quantity: "0", price: "0" });
+    		}
+				  
+			} else {
+				  // Do nothing!
+				console.log('Thing was not saved to the database.');
+			}
+    		
+    		firebase.database().ref("ictdrink_rollback").update({ confirm: "N" });
     	}
  </script>
 
@@ -412,9 +689,6 @@
   	<hr>
   	<!-- div align="center"><input type="button" value="清除全部訂購資料" onclick="clearAll()" /><input type="button" value="結單" onclick="pay()" /></div-->
   	<br>
-  	<h3 align="center" style="color:Red;">1.按"新增項目"來填寫訂單.</h3>
-  	<h3 align="center" style="color:Red;">2.訂單內容、單價、數量其中一個欄位為"空白"，此訂單將不會被寫入.</h3>
-  	<h3 align="center" style="color:Red;">3.欲刪除其中一筆訂單，只需將該訂單其中一個欄位留空白即可.</h3>
   	<!-- div align="center"><b>請直接按"修改"來新增或修改資料。"刪除"為刪除人員，請注意。若誤刪，請從新增人員新增。 若購買超過1杯，請自行填入總數。</b></div>
   	<hr>
   	<div align="center" id="total_show"><b><h1>目前總數 : <span id="current_total"></span></h1></b></div>
@@ -467,9 +741,7 @@
 		var ref_img = firebase.database().ref("ictdrink_select/url");
 		var ref_with_key = firebase.database().ref("ictdrink/"+myKey+"").once("value");
 		
-		
 		console.log("========>ref_with_key = " + ref_with_key.employee);
-		//console.log("<===*====>order_with_key = " + order_with_key);
 		//var ref_gold = firebase.database().ref('ictdrink_money/money');
 		//var no_image_show = document.getElementById("no_image_show");
 		//var total_show = document.getElementById("total_show");
@@ -505,8 +777,6 @@
 		//single
 		ref.once("value", function(snapshot) {
 			
-			
-			
 			var body = document.getElementsByTagName('body')[0];
 			var prev_tbl_exist = 0;
 			//document.getElementsByTagName('body')[0].innerHTML = '';
@@ -522,7 +792,6 @@
     		tb0.setAttribute('class', 'center');
 	    	tb0.setAttribute('border', '1');
 	    	tb0.setAttribute('width', '100%');
-	    	tb0.setAttribute('id', 'mytable');
 	    	
 	    	//var tbl = document.createElement('table');
     		
@@ -536,25 +805,10 @@
   				var id=childData.id;
   				//console.log(k+" / "+myKey);
   				
-  				
-  				
   				if (k == myKey) {
   					console.log(childData.employee);
   	  			    var employee = childData.employee;
-  	  			    var myOrder = employee.order;
-  	  			    if (myOrder != null) {
-  	  			    	//console.log("myOrder = "+myOrder);
-  	  			    	Object.keys(myOrder).forEach(key => {
-  							console.log(key);
-  							order_key_array.push(key);
-						});
-  	  			    	
-  	  			    	Object.values(myOrder).forEach(val => {
-  	  			    		console.log(val);
-  	  			  		});
-  	  			    }
   	  			    
-  	  				console.log("order_key_array.length = "+order_key_array.length);
   	  			    //name
   	  				var tr1 = document.createElement('tr');
   	  				tr1.colspan = 2;
@@ -588,7 +842,7 @@
   					tbdy.appendChild(tr2);
   					
   					//item
-  	    	      	/*var tr3 = document.createElement('tr');
+  	    	      	var tr3 = document.createElement('tr');
 	  				tr3.colspan = 2;
   	    	        
 	  				var h_td_3 = document.createElement('td');
@@ -598,11 +852,13 @@
   					
   					var td3 = document.createElement('td');
   					td3.innerHTML = "<b><textarea rows=\"4\" id=\"item_edit_itemname\" oninput=\"updateItem(this.value)\" style=\"width:90%\">"+employee.itemName+"</textarea></b>";
+  					//td3.appendChild(document.createTextNode(employee.item));
+  					//td3.style.textAlign = "center";
   					tr3.appendChild(td3);
-  					tbdy.appendChild(tr3);*/
+  					tbdy.appendChild(tr3);
   					
   					//quantity
-  	    	      	/*var tr4 = document.createElement('tr');
+  	    	      	var tr4 = document.createElement('tr');
 	  				tr4.colspan = 2;
   	    	        
 	  				var h_td_4 = document.createElement('td');
@@ -612,12 +868,14 @@
   					
   					var td4 = document.createElement('td');
   					td4.innerHTML = "<b><input type=\"number\" id=\"item_edit_quantity\" value=\""+employee.quantity+"\" oninput=\"updateQuantity(this.value)\" style=\"width:50px\"></b>";
+  					//td3.appendChild(document.createTextNode(employee.item));
+  					//td3.style.textAlign = "center";
   					tr4.appendChild(td4);
   					
-  					tbdy.appendChild(tr4);*/
+  					tbdy.appendChild(tr4);
   					
   					//price
-  	    	      	/*var tr5 = document.createElement('tr');
+  	    	      	var tr5 = document.createElement('tr');
 	  				tr5.colspan = 2;
   	    	        
 	  				var h_td_5 = document.createElement('td');
@@ -627,48 +885,11 @@
   					
   					var td5 = document.createElement('td');
   					td5.innerHTML = "<b><input type=\"number\" id=\"item_edit_price\" value=\""+employee.price+"\" oninput=\"updatePrice(this.value)\" style=\"width:50px\"></b>";
-  				
+  					//td3.appendChild(document.createTextNode(employee.item));
+  					//td3.style.textAlign = "center";
   					tr5.appendChild(td5);
   					
-  					tbdy.appendChild(tr5);*/
-  					orderCount = 0;
-					totalQuantity = 0;
-					totalPrice = 0;
-  					if (myOrder != null) {
-  						var idx = 0;
-  						
-  						Object.values(myOrder).forEach(val => {
-  	  			    		console.log(val);
-  	  			    		
-  	  			    		var tr_order = document.createElement('tr');
-							tr_order.colspan = 2;
-		  	    	        
-			  				var h_td_order = document.createElement('td');
-			  				var headText = "訂單 "+(idx+1)+"";
-			  				h_td_order.appendChild(document.createTextNode(headText));
-			  				h_td_order.style.textAlign = "center";
-			  				tr_order.appendChild(h_td_order);
-			  				
-		  					var td_order = document.createElement('td');
-		  					td_order.innerHTML = "<div>訂單內容(甜度、冰量)</div><br>";
-		  					td_order.innerHTML += "<b><textarea rows=\"4\" id=\"item_edit_itemname_"+idx+"\" oninput=\"updateItem(this.value)\" style=\"width:90%\">"+val.orderItemName+"</textarea></b><br>";
-		  					td_order.innerHTML += "數量&nbsp;&nbsp;&nbsp;<b><input type=\"number\" id=\"item_edit_quantity_"+idx+"\" value=\""+val.orderQuantity+"\" oninput=\"updateQuantity(this.value)\" style=\"width:50px\"></b><br><br>";
-		  					td_order.innerHTML += "單價&nbsp;&nbsp;&nbsp;<b><input type=\"number\" id=\"item_edit_price_"+idx+"\" value=\""+val.orderPrice+"\" oninput=\"updatePrice(this.value)\" style=\"width:50px\"></b>";
-		  					//td3.appendChild(document.createTextNode(employee.item));
-		  					//td3.style.textAlign = "center";
-		  					tr_order.appendChild(td_order);
-		  					
-		  					tbdy.appendChild(tr_order);
-		  					idx++;
-		  					orderCount++;
-		  					totalQuantity += parseInt(val.orderQuantity, 10);
-		  					totalPrice +=  parseInt(val.orderQuantity, 10) * parseInt(val.orderPrice, 10);
-  	  			  		});
-  						//for (var i=0; i<order_key_array.length; i++) {
-  						//	
-  	  					//}
-  					}
-  					
+  					tbdy.appendChild(tr5);
   					
   					//calculate
   	    	      	var tr6 = document.createElement('tr');
@@ -680,7 +901,7 @@
   					tr6.appendChild(h_td_6);
   					
   					var td6 = document.createElement('td');
-  					td6.innerHTML = "<b><span id=\"item_span_calculate\">數量 : "+totalQuantity+"&nbsp;&nbsp;&nbsp;總價 : "+totalPrice+"&nbsp;</span></b>";
+  					td6.innerHTML = "<b><span id=\"item_span_calculate\">&nbsp;"+employee.quantity*employee.price+"&nbsp;</span></b>";
   					//td3.appendChild(document.createTextNode(employee.item));
   					//td3.style.textAlign = "center";
   					tr6.appendChild(td6);
@@ -727,7 +948,7 @@
 	    	
 	    	var div = document.createElement('div');
 	    	div.setAttribute("align", "center");
-	    	div.innerHTML = "<input type=\"button\" class=\"button_green\" value=\"新增項目\" onclick=\"onAddOrder()\" />&nbsp;&nbsp;&nbsp;<input type=\"button\" class=\"button_red\" value=\"取消\" onclick=\"onCancell()\" />&nbsp;&nbsp;&nbsp;<input type=\"button\" class=\"button\" value=\"確定\" onclick=\"onConfirm()\" />";
+	    	div.innerHTML = "<input type=\"button\" class=\"button_red\" value=\"取消\" onclick=\"onCancell()\" />&nbsp;&nbsp;&nbsp;<input type=\"button\" class=\"button\" value=\"確定\" onclick=\"onConfirm()\" />";
 	    	body.appendChild(div)
 		});
 		
