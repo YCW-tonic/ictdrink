@@ -248,11 +248,26 @@
     			var item_edit_quantity_order = document.getElementById(item_edit_quantity_idx);
     			var item_edit_price_order = document.getElementById(item_edit_price_idx);
     			
+    			var temp_quantity = parseInt(item_edit_quantity_order.value, 10);
+    			var temp_price = parseInt(item_edit_price_order.value, 10);
+    			
+    			console.log("temp_quantity = "+temp_quantity);
+    			console.log("temp_price = "+temp_price);
+    			
+    			if (temp_quantity < 0) {
+    				item_edit_quantity_order.value = "0";
+    			}
+    			
+    			if (temp_price < 0) {
+    				item_edit_price_order.value = "0";
+    			}
     			
     			totalQuantity +=  parseInt(item_edit_quantity_order.value, 10);
     			totalPrice += parseInt(item_edit_quantity_order.value, 10) * parseInt(item_edit_price_order.value, 10);
     			console.log("totalPrice = "+totalPrice);
     		}
+    		
+    		
     		
     		
     		
@@ -273,6 +288,20 @@
     			
     			var item_edit_quantity_order = document.getElementById(item_edit_quantity_idx);
     			var item_edit_price_order = document.getElementById(item_edit_price_idx);
+    			
+    			var temp_quantity = parseInt(item_edit_quantity_order.value, 10);
+    			var temp_price = parseInt(item_edit_price_order.value, 10);
+    			
+    			console.log("temp_quantity = "+temp_quantity);
+    			console.log("temp_price = "+temp_price);
+    			
+    			if (temp_quantity < 0) {
+    				item_edit_quantity_order.value = "0";
+    			}
+    			
+    			if (temp_price < 0) {
+    				item_edit_price_order.value = "0";
+    			}
     			
     			totalQuantity +=  parseInt(item_edit_quantity_order.value, 10);
     			totalPrice += parseInt(item_edit_quantity_order.value, 10) * parseInt(item_edit_price_order.value, 10);
@@ -317,7 +346,7 @@
     			if (item_edit_itemname_order != null && item_edit_quantity_order != null &&　item_edit_price_order　!= null) {
     				
     				console.log("item_edit_itemname_order["+i+"].value = "+item_edit_itemname_order.value);
-    				if (item_edit_itemname_order.value == "" || item_edit_quantity_order.value == "" || item_edit_price_order.value == "") {
+    				if (item_edit_itemname_order.value == "" || item_edit_quantity_order.value == "" || item_edit_price_order.value == "" || parseInt(item_edit_quantity_order.value, 10) == 0 || parseInt(item_edit_price_order.value, 10) == 0) {
     					console.log("Delete");
     					firebase.database().ref("ictdrink/"+myKey+"/employee/order/"+order_key_array[i]+"").remove();
     				} else {
@@ -652,8 +681,8 @@
 		  					var td_order = document.createElement('td');
 		  					td_order.innerHTML = "<div>訂單內容(甜度、冰量)</div><br>";
 		  					td_order.innerHTML += "<b><textarea rows=\"4\" id=\"item_edit_itemname_"+idx+"\" oninput=\"updateItem(this.value)\" style=\"width:90%\">"+val.orderItemName+"</textarea></b><br>";
-		  					td_order.innerHTML += "數量&nbsp;&nbsp;&nbsp;<b><input type=\"number\" id=\"item_edit_quantity_"+idx+"\" value=\""+val.orderQuantity+"\" oninput=\"updateQuantity(this.value)\" style=\"width:50px\"></b><br><br>";
-		  					td_order.innerHTML += "單價&nbsp;&nbsp;&nbsp;<b><input type=\"number\" id=\"item_edit_price_"+idx+"\" value=\""+val.orderPrice+"\" oninput=\"updatePrice(this.value)\" style=\"width:50px\"></b>";
+		  					td_order.innerHTML += "單價&nbsp;&nbsp;&nbsp;<b><input type=\"number\" id=\"item_edit_price_"+idx+"\" value=\""+val.orderPrice+"\" oninput=\"updatePrice(this.value)\" style=\"width:50px\"></b><br><br>";
+		  					td_order.innerHTML += "數量&nbsp;&nbsp;&nbsp;<b><input type=\"number\" id=\"item_edit_quantity_"+idx+"\" value=\""+val.orderQuantity+"\" oninput=\"updateQuantity(this.value)\" style=\"width:50px\"></b>";
 		  					//td3.appendChild(document.createTextNode(employee.item));
 		  					//td3.style.textAlign = "center";
 		  					tr_order.appendChild(td_order);
