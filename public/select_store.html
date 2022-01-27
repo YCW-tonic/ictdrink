@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ICT 飲料外食訂購單</title>
 <style>
+
+.center {
+  width:50%;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
 * {box-sizing: border-box}
 body {font-family: Verdana, sans-serif; margin:0}
 .mySlides {display: none}
@@ -156,6 +164,62 @@ img {vertical-align: middle;}
 				console.log('Thing was not saved to the database.');
 			}
 		}
+		
+		function selectSecMenu() {
+			console.log(img_url_array.length);
+				if (confirm('確認使用此圖片?')) {
+					  // Save it!
+					console.log(currentSelectImgUrl);
+					
+					var ret = firebase.database().ref("ictdrink_select2").update({ url: currentSelectImgUrl, onComplete : null });
+				
+					
+					/*key=firebase.database().ref('ictdrink_select').push({
+						url: currentSelectImgUrl
+				 	}).key;
+					console.log(key);*/
+					ret.then(
+							onLoadIndex()
+					);
+					
+					console.log('ret ='+ret);
+					if (ret == null) {
+						console.log("object is null");
+					}
+					  
+				} else {
+					  // Do nothing!
+					console.log('Thing was not saved to the database.');
+				}
+			}
+		
+		function stopSecMenu() {
+			
+				if (confirm('停用菜單 2?')) {
+					  // Save it!
+					console.log(currentSelectImgUrl);
+					
+					var ret = firebase.database().ref("ictdrink_select2").update({ url: "", onComplete : null });
+				
+					
+					/*key=firebase.database().ref('ictdrink_select').push({
+						url: currentSelectImgUrl
+				 	}).key;
+					console.log(key);*/
+					ret.then(
+							onLoadIndex()
+					);
+					
+					console.log('ret ='+ret);
+					if (ret == null) {
+						console.log("object is null");
+					}
+					  
+				} else {
+					  // Do nothing!
+					console.log('Thing was not saved to the database.');
+				}
+			}
 		
 		function delectMenu() {
 			if (confirm('確認刪除此圖片?')) {
@@ -500,7 +564,22 @@ function showSlides(n) {
 <br>
 <hr>
 <br>
-<div align="center" ><input type="button" value="選用此菜單" style="width:50%" onclick="selectMenu()"><input type="button" value="刪除此菜單" style="width:50%" onclick="delectMenu()"></div>
+<table class="center">
+	<tr>
+		<td><input type="button" value="選用此為菜單 1"  onclick="selectMenu()"></td>
+		<td><input type="button" value="選用此為菜單 2" onclick="selectSecMenu()"></td>
+		
+	</tr>
+	<tr></tr>
+	<tr>
+		<td><input type="button" value="刪除此菜單" onclick="delectMenu()"></td>	
+		<td><input type="button" value="停用菜單 2" onclick="stopSecMenu()"></td>
+	</tr>
+	
+		
+	
+</table>
+<!-- div align="center" ><input type="button" value="選用此菜單" style="width:50%" onclick="selectMenu()"><input type="button" value="刪除此菜單" style="width:50%" onclick="delectMenu()"></div-->
 
 <br>
 <hr>

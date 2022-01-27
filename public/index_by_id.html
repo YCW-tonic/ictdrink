@@ -436,8 +436,10 @@
     
   	<hr>
   	<!-- div align="center" id="no_image_show" style="display:none">目前沒有菜單，請按"選擇菜單" => "上傳菜單圖片"</div-->
+  	<h1 align="center">菜單 1</h1>
   	<div id="img-area" style="width:100%"></div>
-  	
+  	<h1 align="center" id="img_area2_header">菜單 2</h1>
+  	<div id="img-area2" style="width:100%"></div>
   	<hr>
   	<!-- div align="center"><input type="button" value="清除全部訂購資料" onclick="clearAll()" /><input type="button" value="結單" onclick="pay()" /></div-->
   	<br>
@@ -494,6 +496,7 @@
 		
 		var ref = firebase.database().ref('ictdrink');
 		var ref_img = firebase.database().ref("ictdrink_select/url");
+		var ref_img2 = firebase.database().ref("ictdrink_select2/url");
 		var ref_with_key = firebase.database().ref("ictdrink/"+myKey+"").once("value");
 		
 		
@@ -530,6 +533,30 @@
 		});
 		
 		console.log(ref_img);
+		
+		
+		ref_img2.on('value', (snapshot) => {
+			
+			img_area2_header = document.getElementById("img_area2_header");
+			img_area2 = document.getElementById("img-area2");
+			
+			const data = snapshot.val();
+			if (data == null || data == "") {
+				//no_image_show.style.display = "block";
+				img_area2_header.style.display = "none";
+				img_area2.style.display = "none";
+			}
+			console.log("data = "+data);
+			
+			var img = $('<img />').attr({
+                  'src': data,
+                  'alt': 'image',
+                  'title': 'image',
+                  'width': '100%'
+              }).appendTo('#img-area2');
+		});
+		
+		console.log(ref_img2);
 		
 		//single
 		ref.once("value", function(snapshot) {
